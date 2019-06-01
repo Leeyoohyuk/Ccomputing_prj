@@ -1,0 +1,461 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+body{
+    margin:0;
+    padding:0;
+    height:100%;
+    width:100%;
+}
+
+.login_section{
+    font-family: 'Mukta', sans-serif;
+    height:100vh;
+    min-height:550px;
+    background-image: url('../images/login.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position:center;
+    position:relative;
+}
+
+/*
+인트로 페이지(로그인 바로 아래)
+ */
+.intro{
+    height:70vh;
+    min-height:380px;
+    width:100%;
+    margin: auto;
+    background-color: white;
+    background-size: cover;
+    position:relative;
+    background-position:center;
+    display: table;
+    top:0;
+}
+
+.intro .intro_inner{
+    display:table-cell;
+    vertical-align:middle;
+    width:100%;
+    max-width:none;
+}
+.content_intro{
+    max-width:500px;
+    margin:0 auto;
+    text-align:right;
+    position:relative;
+    right:-200px;
+}
+
+
+
+.content_intro_inner{
+    font-family: 'Raleway', sans-serif;
+    color: #727272;
+    text-shadow:0px 0px 300px #000;
+    font size: 500%;
+}
+
+
+.lead{
+    font-family: 'Oswald', sans-serif;
+    color: #c9c9c9;
+    text-shadow:0px 0px 300px #000;
+    font size:250%;
+}
+
+.second_int{
+   height:70vh;
+    min-height:380px;
+    width:100%;
+    margin: auto;
+    background-color: #dbdbdb;
+    background-size: cover;
+    position:relative;
+    background-position:center;
+    display: table;
+    top:0;
+}
+.second_int .second_int_inn{
+    display:table-cell;
+    vertical-align:middle;
+    width:100%;
+    max-width:none;
+}
+.content_second_int{
+    max-width:500px;
+    margin:0 auto;
+    text-align:left;
+    position:relative;
+    left:-200px;
+}
+
+
+
+.content_second_int_inn{
+    font-family: 'Raleway', sans-serif;
+    color: #727272;
+    text-shadow:0px 0px 300px #000;
+    font size: 500%;
+}
+
+
+.second_lead{
+    font-family: 'Oswald', sans-serif;
+    color: #c9c9c9;
+    text-shadow:0px 0px 300px #000;
+    font size:250%;
+}
+
+.third_int{
+   height:70vh;
+    min-height:380px;
+    width:100%;
+    margin: auto;
+    background-color: white;
+    background-size: cover;
+    position:relative;
+    background-position:center;
+    display: table;
+    top:0;
+}
+.third_int .third_int_inn{
+    display:table-cell;
+    vertical-align:middle;
+    width:100%;
+    max-width:none;
+}
+.content_third_int{
+    max-width:500px;
+    margin:0 auto;
+    text-align:right;
+    position:relative;
+    right:-200px;
+}
+
+
+
+.content_third_int_inn{
+    font-family: 'Raleway', sans-serif;
+    color: #727272;
+    text-shadow:0px 0px 300px #000;
+    font size: 500%;
+}
+
+
+.third_lead{
+    font-family: 'Oswald', sans-serif;
+    color: #c9c9c9;
+    text-shadow:0px 0px 300px #000;
+    font size:250%;
+}
+
+.fourth_int{
+   height:40vh;
+    min-height:220px;
+    width:100%;
+    margin: auto;
+    background-color: #dbdbdb;
+    background-size: cover;
+    position:relative;
+    background-position:center;
+    display: table;
+    top:0;
+}
+.fourth_int .fourth_int_inn{
+    display:table-cell;
+    vertical-align:middle;
+    width:100%;
+    max-width:none;
+}
+.content_fourth_int{
+    max-width:500px;
+    margin:0 auto;
+    text-align:left;
+    position:relative;
+    left:150px;
+}
+
+
+
+.content_fourth_int_inn{
+    font-family: 'Raleway', sans-serif;
+    color: #727272;
+    text-shadow:0px 0px 300px #000;
+    font size: 500%;
+}
+
+
+.fourth_lead{
+    font-family: 'Oswald', sans-serif;
+    color: #c9c9c9;
+    text-shadow:0px 0px 300px #000;
+    font size:250%;
+    position:relative;
+    left:77px;
+    margin-top:10px;
+}
+
+a{
+  text-decoration:none;
+  color:#444444;
+}
+
+.login-reg-panel{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+	text-align:center;
+    width:70%;
+	right:0;left:0;
+    margin:auto;
+    height:400px;
+    background-color: rgba(30,30,30, 0.9);
+}
+.white-panel{
+    background-color: rgba(255,255, 255, 1);
+    height:500px;
+    position:absolute;
+    top:-50px;
+    width:50%;
+    right:calc(50% - 50px);
+    transition:.3s ease-in-out;
+    z-index:0;
+}
+.login-reg-panel input[type="radio"]{
+    position:relative;
+    display:none;
+}
+.login-reg-panel{
+    color:#B8B8B8;
+}
+.login-reg-panel #label-login,
+.login-reg-panel #label-register{
+    border:1px solid #9E9E9E;
+    padding:0 5px;
+    width:150px;
+    display:block;
+    text-align:center;
+    border-radius:3px;
+    cursor:pointer;
+}
+.login-info-box{
+    width:50%;
+    padding:0 50px;
+    top:30%;
+    left:7%;
+    position:absolute;
+    text-align:left;
+}
+.login-info-box h2{margin-bottom: 30px;}
+.register-info-box{
+    width:50%;
+    padding:0 50px;
+    top:30%;
+    right:-10%;
+    position:absolute;
+    text-align:left;
+
+}
+.register-info-box h2{margin-bottom: 30px;}
+.right-log{right:50px !important;}
+
+.login-show,
+.register-show{
+    z-index: 1;
+    display:none;
+    opacity:0;
+    transition:0.3s ease-in-out;
+    color:#242424;
+    text-align:left;
+    padding:50px;
+}
+.show-log-panel{
+    display:block;
+    opacity:0.9;
+}
+.login-show input[type="text"], .login-show input[type="password"]{
+    width: 100%;
+    display: block;
+    margin:20px 0;
+    padding: 15px;
+    border: 1px solid #b5b5b5;
+    outline: none;
+}
+.login-show input[type="button"] {
+    max-width: 150px;
+    width: 100%;
+    background: #444444;
+    color: #f9f9f9;
+    border: none;
+    padding: 10px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    float:right;
+    cursor:pointer;
+}
+.login-show a{
+    display:inline-block;
+    padding:10px 0;
+}
+
+.register-show input[type="text"], .register-show input[type="password"]{
+    width: 100%;
+    display: block;
+    margin:20px 0;
+    padding: 15px;
+    border: 1px solid #b5b5b5;
+    outline: none;
+}
+.register-show input[type="button"] {
+    max-width: 150px;
+    width: 100%;
+    background: #444444;
+    color: #f9f9f9;
+    border: none;
+    padding: 10px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    float:right;
+    cursor:pointer;
+}
+.credit {
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    color: #3B3B25;
+    margin: 0;
+    padding: 0;
+    font-family: Arial,sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 99;
+}
+a{
+  text-decoration:none;
+  color:#eaeaea;
+}
+
+/*
+언더바 메뉴
+ */
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+}
+
+.fifth_int{
+    font-family:'Raleway', sans-serif;
+}
+
+b{
+    text-decoration:none;
+    outline:none;
+}
+
+b img{
+    border:none;
+}
+
+.clr{
+    clear:both;
+}
+
+.footer-main{
+    width:100%;
+    height:auto;
+    margin:auto;
+    background: #3d3d3d;
+    padding:30px 20px;
+}
+
+.footer-inner{
+    width:1200px;
+    height:auto;
+    margin:auto;
+}
+
+.footer-left{
+    width:300px;
+    height:auto;
+    float:left;
+}
+
+.footer-box{
+    width:100%;
+    height:auto;
+    margin:auto;
+    margin-bottom:30px;
+}
+
+.footer-box h6{
+    font-family: 'Raleway', sans-serif;
+    font-size:20px;
+    color:#fff;
+    text-align:left;
+    margin:0px;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding-bottom:15px;
+}
+
+.footer-box ul{
+    margin:0px;
+    padding:0px;
+}
+
+.footer-box ul li{
+    list-style-type: none;
+    padding-top: 2px;
+    text-align:left;
+}
+
+.footer-box ul li b{
+     font-family: 'Raleway', sans-serif;
+     font-size: 14px;
+     color:#999;
+}
+
+.footer-box ul li b i{
+     font-size: 14px;
+     color:#fff;
+     width:20px;
+     height:auto;
+     padding-right: 25px;
+}
+
+
+.footer-right{
+    width:215px;
+    height:auto;
+    margin-top: 70px;
+    float:right;
+    margin-right: 70px;
+}
+
+.footer-box h5{
+    font-family: 'Raleway', sans-serif;
+    font-size:20px;
+    color:#fff;
+    text-align:right;
+    margin:0px;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding-bottom:15px;
+}
+
+.footer-box p{
+   font-family: 'Raleway', sans-serif;
+     font-size: 14px;
+     color:#999;
+     padding-top:2px;
+     margin:0px;
+     text-align:right;
+ }
+

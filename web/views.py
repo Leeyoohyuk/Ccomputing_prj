@@ -1,16 +1,14 @@
 from django.shortcuts import render, redirect, Http404
 from django.contrib.auth.decorators import login_required
-
 from web import s3_interface
 from Bloud import settings
 from django.http import HttpResponse
 import os
-import requests
 from web.serializers import FileSerializer
 
 
 def home(request):
-    return render(request, 'web/home.html')
+    return render(request, 'registration/index.html')
 
 @login_required # 완료
 def file_list(request, path='/'):
@@ -19,6 +17,16 @@ def file_list(request, path='/'):
 	ret = data
 	ret['path'] = path
 	return render(request, 'web/file_list.html', ret)
+#
+# @login_required
+# def file_sorted_list(request, path='/'):
+# 	user = request.user
+# 	data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
+# 	data['files'] = sorted(data['files'], key=lambda k: k['name'])
+# 	sret = data
+# 	sret['path'] = path
+# 	return render(request, 'web/file_list.html', sret)
+
 
 @login_required # 완료
 def file_upload(request, path="/"):
@@ -56,7 +64,7 @@ def file_delete(request, path = '/'):
 def file_download(request, path):
 #	cookies = {'sessionid' : request.session.session_key}
 #	requests.get('http://localhost:8000/restapi/file/'+path, cookies=cookies)
-	file = 'media/' + path.split('/')[-1]
+	file = 'tempfile/' + path.split('/')[-1]
 	user = request.user
 	s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
 	file_path = os.path.join(settings.MEDIA_ROOT, path)
@@ -70,7 +78,7 @@ def file_download(request, path):
 @login_required
 def file_view(request, path):
 #	requests.get('http://localhost:8000/restapi/file/'+path, cookies=cookies)
-	file = 'media/' + path.split('/')[-1]
+	file = 'tempfile/' + path.split('/')[-1]
 	user = request.user
 	s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
 	file_path = os.path.join(settings.MEDIA_ROOT, path)
@@ -98,11 +106,3 @@ def file_move(request, old_path, new_path):
 	if new_path != '':
 		new_path = new_path+'/'
 	return redirect('file_list', path=new_path)
-#
-# def get(self, request, path="/", format=None):
-# 	# download file from s3
-# 	file = 'media/' + path.split('/')[-1]
-# 	user = request.user
-# 	s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
-# 	# TODO error
-# 	return Response({'file': file})

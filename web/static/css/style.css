@@ -45,7 +45,7 @@ body {
 }
 
 .navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus, {
+.navbar-default .navbar-brand:focus {
 	color:#4886DB;
 }
 .navbar-default .navbar-nav > .active > a,

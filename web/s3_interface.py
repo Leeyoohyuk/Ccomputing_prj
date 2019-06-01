@@ -27,7 +27,6 @@ def list_path(bucket, user, path):
             file = obj.get('Key').split('/')[-1]
             if file != '':
                 files.append({'type':'file', 'name':file})
-
     return {'files':files}
  
 

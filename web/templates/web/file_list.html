@@ -1,9 +1,8 @@
 {% extends 'web/baseline.html' %}
-	
 {% block content %}
-	<style type="text/css">
+    <style type="text/css">
 
-	</style>
+    </style>
 <center>
 	<div>
 		<form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >
@@ -17,13 +16,18 @@
 </center>
 <div>
 	<button class="ui primary button" style="margin-left: 24%" onclick="make_folder()"><i class="plus icon"></i>폴더 만들기</button>
+    <!--
+    <input type="checkbox" name="sort" value="sorted"> 이름 순 정렬 <br>
+    <button class="text-center"><a class= "btn btn-primary btn-lg" href="{#% url 'file_list' path=''%#}" role ="button">이름순 정렬</a></button>
+    -->
 	<div style="display: none;" id="dir_make">
 			<input type="text" id="dir_name">
 			<button class="ui primary button" onclick="make_directory()">만들기</button>
 	</div>
-	
+
 </div>
 <br>
+
 <center>
 	<table style="margin-top: 7px" class="ui celled striped collapsing table">
 	  <thead>
