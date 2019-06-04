@@ -11,7 +11,7 @@ def home(request):
     return render(request, 'registration/index.html')
 
 @login_required # 완료
-def file_list(request, path='/'):
+def file_list(request, path= '/'):
 	user = request.user
 	data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
 	ret = data

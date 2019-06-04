@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from web.forms import CreateUserForm
 
 
-def signin(request, path = '/'):
+def signin(request, path = ''):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -18,7 +18,7 @@ def signin(request, path = '/'):
         else:
             return redirect('home')
 
-def signup(request, path = '/'):
+def signup(request, path = ''):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
