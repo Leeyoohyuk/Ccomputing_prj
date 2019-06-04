@@ -4,7 +4,7 @@ from django.urls import path
 from web import views, auth_views
 
 urlpatterns = [
-
+    url(r'^accounts/login/$', auth_views.signin, name='signin'), #kwargs= {'next_page' : '/file_list/'}),
     url(r'^accounts/signup/$', auth_views.signup, name='signup'),
     url(r'^accounts/delete_account/$', auth_views.delete_account, name='delete_account'),
     url(r'^accounts/delete_account_success/$', auth_views.delete_account_success, name='delete_account_success'),

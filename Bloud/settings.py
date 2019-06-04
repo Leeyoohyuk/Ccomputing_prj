@@ -125,7 +125,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "tempfile")
 
 # Login redirect
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 # AWS

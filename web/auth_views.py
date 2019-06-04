@@ -4,20 +4,34 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-def signup(request):
+from web.forms import CreateUserForm
+
+
+def signin(request, path = '/'):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('file_list', path = path)
+        else:
+            return redirect('home')
+
+def signup(request, path = '/'):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(username=username, password=raw_password, email=email)
             login(request, user)
-            return redirect('/')
+            return redirect('file_list', path = path)
     else:
         form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
-
+    return render(request, 'registration/index.html', {'form': form})
 
 @login_required
 def delete_account(request):

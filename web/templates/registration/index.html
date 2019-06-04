@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Cloud for you</title>
     <script language="javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href='{% static "css/login_style.css" %}'>
+    <link rel="stylesheet" href="../../static/css/login_style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -26,16 +26,28 @@
                 <label id="label-login" for="log-login-show">Register</label>
                 <input type="radio" name="active-log-panel" id="log-login-show">
             </div>
-            <!-- 장고 폼과 연결 -->
             <div class="white-panel">
-                    <div class="login-show">
+                <div class="login-show">
+                    <form action="{% url 'signin'%}" method="post">
+                    {% csrf_token %}
                         <h2>LOGIN</h2>
-                        <a href="{% url 'login' %}"><input type="button" value="Login"></a>
-                    </div>
+                            <input type="text" name="username" placeholder="ID">
+                            <input type="password" name="password" placeholder="Password">
+                            <input type="submit" value="Login">
+                        <!--<a href="">Forgot password?</a>-->
+                    </form>
+                </div>
                 <div class="register-show">
+                    <form action="{% url 'signup' %}" method="post">
+                        {% csrf_token %}
                         <!--method를 post로 놓아서 보안성 높임-->
                         <h2>REGISTER</h2>
-                        <a href="{% url 'signup' %}"><input type="button" value="Register"></a>
+                            <input type="text" name="username" placeholder="ID">
+                            <input type="text" name="email" placeholder="Email">
+                            <input type="password" maxlength="12" name="password1" placeholder="Password">
+                            <!--12자리 미만의 영문 대소문자, 숫자 입력-->
+                            <input type="password" maxlength="12" name="password2" placeholder="Confirm Password">
+                            <input type="submit" value="Register">
                     </form>
                 </div>
             </div>
