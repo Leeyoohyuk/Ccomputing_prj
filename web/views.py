@@ -10,7 +10,7 @@ from web.serializers import FileSerializer
 def home(request):
     return render(request, 'registration/index.html')
 
-@login_required # ì™„ë£Œ
+@login_required # ¿Ï·á
 def file_list(request, path= '/'):
 	user = request.user
 	data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
@@ -28,7 +28,7 @@ def file_list(request, path= '/'):
 # 	return render(request, 'web/file_list.html', sret)
 
 
-@login_required # ì™„ë£Œ
+@login_required # ¿Ï·á
 def file_upload(request, path="/"):
 	file = request.FILES.get('file')
 	files = {'file': file}
@@ -44,14 +44,14 @@ def file_upload(request, path="/"):
 
 	return redirect('file_list', path=path)
 
-@login_required # ì™„ë£Œ
+@login_required # ¿Ï·á
 def create_folder(request, path):
 	request.POST.get('dir_name')
 	user = request.user
 	s3_interface.make_directory(s3_interface.BUCKET, user.username, path)
 	return redirect('file_list', path=path)
 
-@login_required # ì™„ë£Œ
+@login_required # ¿Ï·á
 def file_delete(request, path = '/'):
 	user = request.user
 	s3_interface.delete_path(s3_interface.BUCKET, user.username, path)
@@ -60,28 +60,20 @@ def file_delete(request, path = '/'):
 		new_path = new_path+'/'
 	return redirect('file_list', path=new_path)
 
-@login_required
+@login_required #¿Ï·á
 def file_download(request, path):
-#	cookies = {'sessionid' : request.session.session_key}
-#	requests.get('http://localhost:8000/restapi/file/'+path, cookies=cookies)
-	file = 'tempfile/' + path.split('/')[-1]
+	file = 'media/' + path.split('/')[-1]
 	user = request.user
 	s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
-	file_path = os.path.join(settings.MEDIA_ROOT, path)
-	if os.path.exists(file_path):
-		with open(file_path, 'rb') as fh:
-			response = HttpResponse(fh.read(), content_type='multipart/form-data' )
-			response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-			return response
-	raise Http404
+	return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
 
-@login_required
+@login_required #¿Ï·á
 def file_view(request, path):
-#	requests.get('http://localhost:8000/restapi/file/'+path, cookies=cookies)
-	file = 'tempfile/' + path.split('/')[-1]
+	file = 'media/' + path.split('/')[-1]
+	r_path = path.split('/')[-1]
 	user = request.user
 	s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
-	file_path = os.path.join(settings.MEDIA_ROOT, path)
+	file_path = os.path.join(settings.MEDIA_ROOT, r_path)
 	if os.path.exists(file_path):
 		with open(file_path, 'rb') as fh:
 			response = HttpResponse(fh.read(), content_type='text/plain' )
@@ -89,7 +81,7 @@ def file_view(request, path):
 			return response
 	raise Http404
 
-@login_required # ì™„ë£Œ
+@login_required # ¿Ï·á
 def file_copy(request, old_path, new_path):
 	user = request.user
 	s3_interface.copy_file(s3_interface.BUCKET, user.username, old_path, new_path)
@@ -98,7 +90,7 @@ def file_copy(request, old_path, new_path):
 		new_path = new_path+'/'
 	return redirect('file_list', path=new_path)
 	
-@login_required # ì™„ë£Œ
+@login_required # ¿Ï·á
 def file_move(request, old_path, new_path):
 	user = request.user
 	s3_interface.move_file(s3_interface.BUCKET, user.username, old_path, new_path)
