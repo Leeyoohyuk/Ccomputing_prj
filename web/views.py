@@ -68,7 +68,7 @@ def file_delete(request, path='/'):
 
 @login_required  # ¿Ï·á
 def file_download(request, path):
-    file = 'media/' + path.split('/')[-1]
+    file = 'tempfile/' + path.split('/')[-1]
     user = request.user
     s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
     return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
@@ -76,7 +76,7 @@ def file_download(request, path):
 
 @login_required  # ¿Ï·á
 def file_view(request, path):
-    file = 'media/' + path.split('/')[-1]
+    file = 'tempfile/' + path.split('/')[-1]
     r_path = path.split('/')[-1]
     user = request.user
     s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
