@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from web import s3_interface
 from web.forms import CreateUserForm
 
 
@@ -28,10 +29,10 @@ def signup(request, path = ''):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password, email=email)
             login(request, user)
+            s3_interface.make_directory(s3_interface.BUCKET, user.username, 'waste/')
             return redirect('file_list', path = path)
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/index.html', {'form': form})
+        else:
+            return redirect('home')
 
 @login_required
 def delete_account(request):

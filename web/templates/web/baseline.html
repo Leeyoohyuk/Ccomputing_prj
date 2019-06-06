@@ -1,60 +1,547 @@
 {% load staticfiles %}
 <html>
-    <header>
-        <title>D.cloud</title>
-        <meta charset="utf-8">
-        <meta name = "viewport" content="width=device-width", inital-scale="1">
-        <link rel="stylesheet" href='{% static "css/bootstrap.css"%}'>
-        <link rel="stylesheet" href='{% static "css/style.css"%}'>
-        <link rel="stylesheet" type="text/css" href='{% static "semantic/dist/semantic.min.css"%}'>
-    </header>
-    <body>
-        <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle= "collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded=false>
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Dcloud</a>
+<header>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">-->
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+</header>
+<style type="text/css">
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600);
+
+body {
+    font-family: "Lato";
+    font-size: 100%;
+    overflow-y: scroll;
+    height: 100vh;
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background-image: url(login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    position: relative;
+    float:center;
+    margin-left: 30%;
+    width:70%;
+    top:-300px;
+}
+
+.wrapper {
+    width: 100%;
+    height: 450px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.burger-menu {
+    position: fixed;
+    width: 140px;
+    height: 30px;
+    margin: 30px auto 0 -70px;
+    color: #60635E;
+    text-transform: uppercase;
+    z-index: 50;
+}
+
+.burger-click-region {
+    position: absolute;
+    left: 100px;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.burger-menu-piece {
+    display: block;
+    position: relative;
+    width: 40px;
+    border-top: 6px solid #000000;
+    transform-origin: 50% 50%;
+    margin-top: 5px;
+    opacity: 0.5;
+}
+
+
+
+a {
+    text-decoration: none;
+    -webkit-transition: all 0.6s ease;
+    -moz-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+}
+
+a:hover {
+    -webkit-transition: all 0.6s ease;
+    -moz-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+}
+
+.app {
+    height: 100vh;
+}
+
+/* -------------
+Sidebar
+----------------*/
+.sidebar {
+    position: fixed;
+    width: 17em;
+    height: 100%;
+    top: 0;
+    overflow: hidden;
+    background-color: #19222a;
+    -webkit-transform: translateZ(0);
+    visibility: visible;
+    -webkit-backface-visibility: hidden;
+    margin-left: -550px;
+}
+
+.sidebar header {
+    background-color: #09f;
+    width: 100%;
+    display: block;
+    padding: 0.75em 1em;
+}
+
+/* -------------
+Sidebar Nav
+----------------*/
+.sidebar-nav {
+    position: fixed;
+    background-color: #19222a;
+    height: 100%;
+    font-weight: 400;
+    font-size: 1.2em;
+    overflow: auto;
+    padding-bottom: 6em;
+    z-index: 9;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    /* -------------
+  Chev elements
+  ----------------*/
+    /* -------------
+  Nav-Flyout
+  ----------------*/
+    /* -------------
+  Hover
+  ----------------*/
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav ul li {
+    margin-left: 0;
+    padding-left: 0;
+    display: inline-block;
+    width: 100%;
+    /* -------------
+  Sidebar: icons
+  ----------------*/
+}
+
+.sidebar-nav ul li a {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.75em;
+    padding: 1.05em 1em;
+    position: relative;
+    display: block;
+}
+
+.sidebar-nav ul li a:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    -webkit-transition: all 0.6s ease;
+    -moz-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+}
+
+.sidebar-nav ul li i {
+    font-size: 1.8em;
+    padding-right: 0.5em;
+    width: 9em;
+    display: inline;
+    vertical-align: middle;
+}
+
+.sidebar-nav>ul>li>a:after {
+    content: '\f125';
+    font-family: ionicons;
+    font-size: 0.5em;
+    width: 10px;
+    color: #fff;
+    position: absolute;
+    right: 0.75em;
+    top: 45%;
+}
+
+.sidebar-nav .nav-flyout {
+    position: absolute;
+    background-color: #080D11;
+    z-index: 9;
+    left: 2.5em;
+    top: 0;
+    height: 100vh;
+    -webkit-transform: translateX(100%);
+    -moz-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    -o-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.sidebar-nav .nav-flyout a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav ul>li:hover .nav-flyout {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.footer-main{
+    width:100%;
+    height:auto;
+    margin:auto;
+    background: #3d3d3d;
+    padding:30px 20px;
+}
+
+.footer-inner{
+    width:1200px;
+    height:auto;
+    margin:auto;
+}
+
+.footer-left{
+    width:300px;
+    height:auto;
+    float:left;
+}
+
+.footer-box{
+    width:100%;
+    height:auto;
+    margin:auto;
+    margin-bottom:30px;
+}
+
+.footer-box h6{
+    font-family: 'Raleway', sans-serif;
+    font-size:20px;
+    color:#fff;
+    text-align:left;
+    margin:0px;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding-bottom:15px;
+}
+
+.footer-box ul{
+    margin:0px;
+    padding:0px;
+}
+
+.footer-box ul li{
+    list-style-type: none;
+    padding-top: 2px;
+    text-align:left;
+}
+
+.footer-box ul li b{
+     font-family: 'Raleway', sans-serif;
+     font-size: 14px;
+     color:#999;
+}
+
+.footer-box ul li b i{
+     font-size: 14px;
+     color:#fff;
+     width:20px;
+     height:auto;
+     padding-right: 25px;
+}
+
+
+.footer-right{
+    width:215px;
+    height:auto;
+    margin-top: 70px;
+    float:right;
+    margin-right: 70px;
+}
+
+.footer-box h5{
+    font-family: 'Raleway', sans-serif;
+    font-size:20px;
+    color:#fff;
+    text-align:right;
+    margin:0px;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding-bottom:15px;
+}
+
+.footer-box p{
+   font-family: 'Raleway', sans-serif;
+     font-size: 14px;
+     color:#999;
+     padding-top:2px;
+     margin:0px;
+     text-align:right;
+ }
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+}
+
+.fifth_int{
+    font-family:'Raleway', sans-serif;
+}
+
+b{
+    text-decoration:none;
+    outline:none;
+}
+
+b img{
+    border:none;
+}
+
+.clr{
+    clear:both;
+}
+
+</style>
+
+<body>
+    <div class="wrapper">
+        <div class="burger-menu">
+            <div class="burger-click-region" onclick="haminate()">
+                <span class="burger-menu-piece top"></span>
+                <span class="burger-menu-piece middle"></span>
+                <span class="burger-menu-piece bottom"></span>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home<span class="sr-only"></span></a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated %}
-                        <li style="padding-top: 8%">안녕하세요 {{ user.username }} 님</li>
-                        <li> <a href="{% url 'logout' %}">Logout</a></li>
-                    {% else %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role= "button" aria-haspopup="true" aria-expanded="false">접속하기 <span class="glyphicon glyphicon-lock"></span><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'login' %}">Login</a></li>
-                                <li><a href="{% url 'signup' %}">SignUp</a></li>
+        </div>
+        <section class="app">
+            <aside class="sidebar">
+                <header>
+                    Menu
+                </header>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="#"><i class="ion-md-folder"></i> <span>My file</span></a>
+                            <ul class="nav-flyout">
+                                <li>
+                                    <a href="#"><i class="ion-md-document"></i>documents</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-images"></i>images</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-camera"></i>media</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-cube"></i>view all</a>
+                                </li>
                             </ul>
                         </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-        <div class="content">
-            {% block content %}
-            {% endblock %}
-        </div>
-        <div class="page-footer">
-            
-        </div>
-        <footer id="footer">
-            <div>
-            </div>
-        </footer>
+                        <li>
+                            <a href="#"><i class="ion-md-trash"></i><span class="">Trash</span></a>
+                            <ul class="nav-flyout">
+                                <li>
+                                    <a href="#"><i class="ion-md-document"></i>documents</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-images"></i>images</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-camera"></i>media</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-cube"></i>view all</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="ion-md-share"></i> <span class="">Share</span></a>
+                            <ul class="nav-flyout">
+                                <li>
+                                    <a href="#"><i class="ion-logo-facebook"></i>Facebook</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-logo-twitter"></i>Twitter</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-logo-googleplus"></i>Email</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="ion-md-share"></i>Make a link</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </section>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js'></script>
+    <script type="text/javascript">
+    /*
+burger botton action
+ */
 
+    var burgerTop = document.getElementsByClassName("top");
+    var burgerBot = document.getElementsByClassName("bottom");
+    var burgerMid = document.getElementsByClassName("middle");
+    var burgerSidebar = document.getElementsByClassName("sidebar");
+    var sideText = document.getElementsByClassName("sidetext");
+    var burgerWhole = document.querySelectorAll(".top, .bottom, .middle");
+
+    var tl = new TimelineMax({ paused: true, reversed: true });
+    tl.timeScale(1);
+    tl
+        .to(burgerTop, 0.7, { y: 11, yoyo: true, ease: Power1.easeInOut })
+        .to(burgerBot, 0.7, { y: -11, yoyo: true, ease: Power1.easeInOut }, '-=0.7')
+        .to(burgerTop, 1, { rotation: 585 })
+        .to(burgerMid, 1, { rotation: 585 }, '-=1')
+        .to(burgerBot, 1, { rotation: 675 }, '-=1')
+        .to(burgerWhole, 0.1, { css: { borderColor: "#000", opacity: 0.4 }, ease: Power1.easeOut }, '-=1')
+        .to(burgerSidebar, 1, { x: 550, ease: Power2.easeOut }, '-=1')
+        .staggerFrom(sideText, 0.5, { opacity: 0, y: 25, ease: Power1.easeOut }, 0.1, "-=0.7")
+        .to(sideText, 0.2, { css: { color: "#000" } })
+        .to(burgerTop, 1.0, { x: 240, y: -18 }, '-=1')
+        .to(burgerMid, 1.0, { x: 240, y: -28, css: { opacity: 0 } }, '-=1')
+        .to(burgerBot, 1.0, { x: 240, y: -38 }, '-=1');
+
+    function haminate() {
+        tl.reversed() ? tl.play() : tl.reverse();
+
+    }
+    </script>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="page-footer">
+    </div>
+    <footer id="footer">
+       <section class="fifth_int">
+        <div class="footer-main">
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <div class="footer-box">
+                        <h6>PRODUCTS</h6>
+                        <ul>
+                            <li><b href="#">Products One</b></li>
+                            <li><b href="#">Products Two</b></li>
+                            <li><b href="#">Products Three</b></li>
+                            <li><b href="#">Products Four</b></li>
+                        </ul>
+                    </div>
+                    <div class="footer-box">
+                        <h6>HOW TO USE</h6>
+                        <ul>
+                            <li><b href="#">Products One</b></li>
+                            <li><b href="#">Products Two</b></li>
+                            <li><b href="#">Products Three</b></li>
+                            <li><b href="#">Products Four</b></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-left">
+                    <div class="footer-box">
+                        <h6>ABOUT US</h6>
+                        <ul>
+                            <li><b href="#">Products One</b></li>
+                            <li><b href="#">Products Two</b></li>
+                            <li><b href="#">Products Three</b></li>
+                            <li><b href="#">Products Four</b></li>
+                        </ul>
+                    </div>
+                    <div class="footer-box">
+                        <h6>INFORMATION</h6>
+                        <ul>
+                            <li><b href="#">Products One</b></li>
+                            <li><b href="#">Products Two</b></li>
+                            <li><b href="#">Products Three</b></li>
+                            <li><b href="#">Products Four</b></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-left">
+                    <div class="footer-box">
+                        <h6>FOLLOW US</h6>
+                        <ul>
+                            <li><b href="#"><i class="fa fa-google-plus"></i>Google+</b></li>
+                            <li><b href="#"><i class="fa fa-twitter"></i>Twitter</b></li>
+                            <li><b href="#"><i class="fa fa-facebook"></i>Facebook</b></li>
+                            <li><b href="#"><i class="fa fa-linkedin"></i>Linkedin</b></li>
+                            <li><b href="#"><i class="fa fa-rss"></i>Rss</b></li>
+                        </ul>
+                    </div>
+                    <div class="footer-box">
+                        <h6>SHARE</h6>
+                        <ul>
+                            <li><b href="#">Products One</b></li>
+                            <li><b href="#">Products Two</b></li>
+                            <li><b href="#">Products Three</b></li>
+                            <li><b href="#">Products Four</b></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-box">
+                        <h5>CONTACT</h5>
+                        <p>Telephone: +82 10-6428-5828</p>
+                        <p>E-mail: ljyjh0118@gmail.com</p>
+                    </div>
+                    <div class="footer-box">
+                        <h5>LOCATION</h5>
+                        <p>Address: 1-0, Giheung-gu, Yongin-si Gyeonggi-do,,, Republic of Korea</p>
+                        <p>Phone: 031-201-2114</p>
+                    </div>
+                </div>
+                <div class="clr"></div>
+            </div>
+        </div>
+    </section>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src='{% static "js/bootstrap.js"%}'></script>
     <script src='{% static "semantic/dist/semantic.min.js"%}'></script>
-    </body>
+</body>
+
 </html>

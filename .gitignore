@@ -1,2 +1,3 @@
 build/
 awsconf.py
+db.sqlite3

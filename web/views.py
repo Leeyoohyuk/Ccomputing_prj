@@ -11,6 +11,20 @@ def home(request):
     return render(request, 'registration/index.html')
 
 
+# @login_required  # ¿Ï·á
+# def file_list(request, path='/'):
+#     user = request.user
+#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
+#     sort_option = request.GET.get('sort')
+#     if sort_option == 'time':
+#         data['files'] = sorted(data['files'], key=lambda k: k['time'])
+#     elif sort_option == 'name':
+#         data['files'] = sorted(data['files'], key=lambda k: k['name'])
+#     ret = data
+#     ret['path'] = path
+#     return render(request, 'web/file_list.html', ret)
+# ---------------file list 수정됨 ---------------------------------------
+
 @login_required  # ¿Ï·á
 def file_list(request, path='/'):
     user = request.user
@@ -20,26 +34,16 @@ def file_list(request, path='/'):
     return render(request, 'web/file_list.html', ret)
 
 
-#
-# @login_required
-# def file_sorted_list(request, path='/'):
-# 	user = request.user
-# 	data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
-# 	data['files'] = sorted(data['files'], key=lambda k: k['name'])
-# 	sret = data
-# 	sret['path'] = path
-# 	return render(request, 'web/file_list.html', sret)
-
-
 @login_required # 완료
 def file_upload(request, path="/"):
-	fest = request.FILES['file'].name
-	file_path = 'media/' + fest
-	user = request.user
-	data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path, path + file_path.split('/')[-1])
-	if os.path.exists(file_path):
-		os.remove(file_path)
-	return redirect('file_list', path=path)
+    fest = request.FILES['file'].name
+    file_path = 'media/' + fest
+    user = request.user
+    data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path, path + file_path.split('/')[-1])
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    return redirect('file_list', path=path)
+
 
 @login_required  # ¿Ï·á
 def create_folder(request, path):
@@ -96,6 +100,16 @@ def file_copy(request, old_path, new_path):
 def file_move(request, old_path, new_path):
     user = request.user
     s3_interface.move_file(s3_interface.BUCKET, user.username, old_path, new_path)
+    new_path = "/".join(new_path.split("/")[:-1])
+    if new_path != '':
+        new_path = new_path + '/'
+    return redirect('file_list', path=new_path)
+
+@login_required  # ¿Ï·á ## new_path를 waste 경로로 설정해서 만든다, 초기에 waste폴더 생성해야함
+def file_waste(request, path):
+    user = request.user
+    new_path = 'waste/' + path
+    s3_interface.move_file(s3_interface.BUCKET, user.username, path, 'waste/' + new_path)
     new_path = "/".join(new_path.split("/")[:-1])
     if new_path != '':
         new_path = new_path + '/'

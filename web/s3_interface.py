@@ -26,7 +26,7 @@ def list_path(bucket, user, path):
         for obj in contents:
             file = obj.get('Key').split('/')[-1]
             if file != '':
-                files.append({'type':'file', 'name':file})
+                files.append({'type':'file', 'name':file, 'time':obj.get("LastModified")})
     return {'files':files}
  
 
@@ -43,7 +43,7 @@ def delete_path(bucket, user, path):
 
 
 def make_directory(bucket, user, path):
-    return S3.put_object(Bucket=BUCKET, Key=user+"/"+path)
+    return S3.put_object(Bucket=bucket, Key=user+"/"+path)
 
 
 def move_file(bucket, user, old_path, new_path):

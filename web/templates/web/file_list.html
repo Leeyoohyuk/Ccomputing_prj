@@ -121,9 +121,11 @@
 		   		{% for file in files %}
 		      <td class="collapsing">
 		      	{% if file.type == "directory" %}
-		      		{% with new_path=path|add:file.name|add:'/' %}
-		        	<a href="{% url 'file_list' path=new_path %}" ><i class="folder icon"></i> {{file.name}}</a>
-		        	{% endwith %}
+                    {% if file.name != 'waste' %}
+                        {% with new_path=path|add:file.name|add:'/' %}
+                        <a href="{% url 'file_list' path=new_path %}" ><i class="folder icon"></i> {{file.name}}</a>
+                        {% endwith %}
+                    {% endif %}
 		        {% else %}
 		        	{% with new_path=path|add:file.name %}
 		        	<a style="color: black" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a>
