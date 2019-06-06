@@ -1,4 +1,4 @@
-{% extends 'web/baseline.html' %}
+ {% extends 'web/baseline.html' %}
 {% block content %}
     <style type="text/css">
     </style>
@@ -63,26 +63,26 @@
     </style>
 <center>
 	<div>
-        <form id="dropFileForm", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" method="post">
-            {% csrf_token %}
-            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event)"><label for="fileInput" id ="fileLable" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">
-                <i class = "fa fa-download fa-5x"></i>
-                <br>
-                <span id ="fileLableText">
-                Choose a file or drag it here
-                </span>
-                <br>
-                <span id="uploadStatus"></span>
-            </label>
-            <input type="submit" value="Upload" class="uploadButton">
-        </form>
-{#		<form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >#}
-{#			{% csrf_token %}#}
-{#			<div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue" >#}
-{#				<input type="file" name="file">#}
-{#			</div>#}
-{#				<button style="margin-top: 10px" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>#}
-{#		</form>#}
+{#        <form id="dropFileForm", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" method="post">#}
+{#            {% csrf_token %}#}
+{#            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event)"><label for="fileInput" id ="fileLable" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">#}
+{#                <i class = "fa fa-download fa-5x"></i>#}
+{#                <br>#}
+{#                <span id ="fileLableText">#}
+{#                Choose a file or drag it here#}
+{#                </span>#}
+{#                <br>#}
+{#                <span id="uploadStatus"></span>#}
+{#            </label>#}
+{#            <input type="submit" value="Upload" class="uploadButton">#}
+{#        </form>#}
+		<form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >
+			{% csrf_token %}
+			<div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue" >
+				<input type="file" name="file">
+			</div>
+				<button style="margin-top: 10px" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>
+		</form>
 	</div>
 </center>
 <div>

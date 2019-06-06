@@ -31,6 +31,7 @@ def list_path(bucket, user, path):
  
 
 def upload_file(bucket, user, local_path, key):
+    print('업로드 시작 ')
     return S3.upload_file(local_path, bucket, user+"/"+key)
 
 

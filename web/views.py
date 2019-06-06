@@ -36,14 +36,21 @@ def file_list(request, path='/'):
 
 @login_required # 완료
 def file_upload(request, path="/"):
-    fest = request.FILES['file'].name
-    file_path = 'media/' + fest
-    user = request.user
-    data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path, path + file_path.split('/')[-1])
-    if os.path.exists(file_path):
-        os.remove(file_path)
-    return redirect('file_list', path=path)
+    file = request.FILES.get('file')
+    files = {'file': file}
+    file_serializer = FileSerializer(data=files)
+    if file_serializer.is_valid():
+        file_serializer.save()
+        # upload to s3
+        file_path = '.' + file_serializer.data.get('file')
+        user = request.user
+        print('file upload 시작')
+        data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path,
+                                        path + file_path.split('/')[-1])
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
+    return redirect('file_list', path=path)
 
 @login_required  # ¿Ï·á
 def create_folder(request, path):

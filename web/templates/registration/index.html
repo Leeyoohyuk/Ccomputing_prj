@@ -25,6 +25,9 @@
                 <p>Then push the Register button!</p>
                 <label id="label-login" for="log-login-show">Register</label>
                 <input type="radio" name="active-log-panel" id="log-login-show">
+                # oAuth
+                {{user}}
+                <a href="{% url "social:begin" "facebook" %}"><button class="btn btn-primary" style="width: 40%">FB Login</button></a>
             </div>
             <div class="white-panel">
                 <div class="login-show">

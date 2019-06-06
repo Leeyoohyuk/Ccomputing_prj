@@ -1,3 +1,8 @@
 build/
 awsconf.py
+<<<<<<< HEAD
 db.sqlite3
+=======
+envs.json
+tempfile/
+>>>>>>> f2b2db2c6aa02e331dbf19b5cf544e30f85140dd

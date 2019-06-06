@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from web import s3_interface
 from web.forms import CreateUserForm
 
-
 def signin(request, path = ''):
     if request.method == "POST":
         username = request.POST['username']
