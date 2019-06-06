@@ -11,9 +11,34 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 from Bloud import awsconf
 import os
+import json
+from django.core.exceptions import ImproperlyConfigured
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+### JYW test
+def get_env(setting, envs):
+    try:
+        return envs[setting]
+    except KeyError:
+        error_msg = "You SHOULD set {} environ".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+DEPLOY_ENVS = os.path.join(BASE_DIR, "envs.json")
+env_file = open(DEPLOY_ENVS)
+envs = json.loads(env_file.read())
+FACEBOOK_KEY = get_env('FACEBOOK_KEY', envs)
+FACEBOOK_SECRET = get_env('FACEBOOK_SECRET', envs)
+
+# SocialLogin: Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_SECRET
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email'
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'web.apps.WebConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +76,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Bloud.urls'
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2', # Google
+    'social_core.backends.facebook.FacebookOAuth2', # Facebook
+    'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
+]
 
 TEMPLATES = [
     {

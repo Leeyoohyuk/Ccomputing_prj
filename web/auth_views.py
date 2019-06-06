@@ -3,9 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
+from Bloud import settings
 from web.forms import CreateUserForm
-
 
 def signin(request, path = ''):
     if request.method == "POST":

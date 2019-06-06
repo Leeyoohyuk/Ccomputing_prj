@@ -34,7 +34,7 @@ def file_list(request, path='/'):
 @login_required # 완료
 def file_upload(request, path="/"):
 	fest = request.FILES['file'].name
-	file_path = 'media/' + fest
+	file_path = 'tempfile/' + fest
 	user = request.user
 	data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path, path + file_path.split('/')[-1])
 	if os.path.exists(file_path):
@@ -61,7 +61,7 @@ def file_delete(request, path='/'):
 
 @login_required  # ¿Ï·á
 def file_download(request, path):
-    file = 'media/' + path.split('/')[-1]
+    file = 'tempfile/' + path.split('/')[-1]
     user = request.user
     s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
     return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
@@ -69,11 +69,12 @@ def file_download(request, path):
 
 @login_required  # ¿Ï·á
 def file_view(request, path):
-    file = 'media/' + path.split('/')[-1]
+    file = 'tempfile/' + path.split('/')[-1]
     r_path = path.split('/')[-1]
     user = request.user
     s3_interface.download_file(s3_interface.BUCKET, user.username, file, path)
     file_path = os.path.join(settings.MEDIA_ROOT, r_path)
+    print('1111111111111111\n\n'+file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type='text/plain')
