@@ -1,3 +1,4 @@
 build/
 awsconf.py
 envs.json
+tempfile/
