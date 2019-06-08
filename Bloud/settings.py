@@ -40,12 +40,13 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email'
 }
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'i86&&&+=xisnp&-lv(m0*y=@v5iao0ukbprh-4yh-)%6i%go_$'
+SOCIAL_AUTH_GOOGLE_PLUS_KEY = "771200825076-t9048l4trbksh202c2ipce299vibvdge.apps.googleusercontent.com" #클라이언트 ID를 사이에 입력
+SOCIAL_AUTH_GOOGLE_PLUS_SECRET = "sIpUzJsMQxmrYv9OzFchasjW" #보안 비밀을 사이에 입력
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,7 +79,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'Bloud.urls'
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth2', # Google
+    'social_core.backends.open_id.OpenIdAuth',  #구글 로그인 처리를 위한 파이썬 클래스
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GooglePlusAuth',
     'social_core.backends.facebook.FacebookOAuth2', # Facebook
     'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
 ]
@@ -94,6 +98,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # social 로그인 관련 template 추가부분
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -157,7 +163,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "tempfile")
 
 # Login redirect
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = '/list/'
 LOGOUT_REDIRECT_URL = 'home'
 
 # AWS
