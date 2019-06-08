@@ -17,7 +17,7 @@ def aboutus(request):
 # def file_list(request, path='/'):
 #     user = request.user
 #     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
-#     sort_option = request.GET.get('sort')
+#     sort_option = request.GET.get('sort','')
 #     if sort_option == 'time':
 #         data['files'] = sorted(data['files'], key=lambda k: k['time'])
 #     elif sort_option == 'name':
@@ -35,23 +35,49 @@ def file_list(request, path='/'):
     ret['path'] = path
     return render(request, 'web/file_list.html', ret)
 
+#
+# def docu_list(request, path ='/'):
+#     user = request.user
+#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
+#     ret = data
+#     ret['path'] = path
+#     return render(request, 'web/file_list.html', ret)
+#
+#
+# def img_list(request, path ='/'):
+#     user = request.user
+#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
+#     ret = data
+#     ret['path'] = path
+#     return render(request, 'web/file_list.html', ret)
+#
+#
+# def media_list(request, path ='/'):
+#     user = request.user
+#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
+#     ret = data
+#     ret['path'] = path
+#     return render(request, 'web/file_list.html', ret)
+
+
+def waste_list(request, path ='/'):
+    user = request.user
+    data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
+    ret = data
+    ret['path'] = path
+    return render(request, '--- 여기에 새로운 front ', ret)
+
 
 @login_required # 완료
 def file_upload(request, path="/"):
     file = request.FILES.get('file')
     files = {'file': file}
     file_serializer = FileSerializer(data=files)
-    print(files)
-    print(file_serializer)
     if file_serializer.is_valid():
         file_serializer.save()
         # upload to s3
         file_path = '.' + file_serializer.data.get('file')
-        print(file_path)
-        print("dfas")
-        print(file_serializer.data)
         user = request.user
-        print('file upload 시작')
         data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path,
                                         path + file_path.split('/')[-1])
         if os.path.exists(file_path):
@@ -108,7 +134,6 @@ def file_copy(request, old_path, new_path):
     if new_path != '':
         new_path = new_path + '/'
     return redirect('file_list', path=new_path)
-
 
 @login_required  # ¿Ï·á
 def file_move(request, old_path, new_path):

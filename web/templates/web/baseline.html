@@ -365,7 +365,7 @@ b img{
                             <a href="#"><i class="ion-md-folder"></i> <span>My file</span></a>
                             <ul class="nav-flyout">
                                 <li>
-                                    <a  href="{% url 'aboutus' %}"><i class="ion-md-document"></i>documents</a>
+                                    <a href="#"><i class="ion-md-images"></i>documents</a>
                                 </li>
                                 <li>
                                     <a href="#"><i class="ion-md-images"></i>images</a>
@@ -391,7 +391,7 @@ b img{
                                     <a href="#"><i class="ion-md-camera"></i>media</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="ion-md-cube"></i>view all</a>
+                                    <a href="{% url 'file_list' path=''%}"><i class="ion-md-cube"></i>view all</a>
                                 </li>
                             </ul>
                         </li>
@@ -485,10 +485,7 @@ burger botton action
                     <div class="footer-box">
                         <h6>ABOUT US</h6>
                         <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
+                            <a  href="{% url 'aboutus' %}">Move to about us</a>
                         </ul>
                     </div>
                     <div class="footer-box">
