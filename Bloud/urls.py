@@ -20,7 +20,7 @@ from django.contrib.auth import views
 from django.urls import path, include
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-LOGIN_REDIRECT_URL='/' # JYW redirect path
+LOGIN_REDIRECT_URL='/list/' # JYW redirect path
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

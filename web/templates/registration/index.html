@@ -26,8 +26,9 @@
                 <label id="label-login" for="log-login-show">Register</label>
                 <input type="radio" name="active-log-panel" id="log-login-show">
                 # oAuth
-                {{user}}
-                <a href="{% url "social:begin" "facebook" %}"><button class="btn btn-primary" style="width: 40%">FB Login</button></a>
+                {{id}}
+                <a href="{% url 'social:begin' 'google-plus' %}"><button class="btn btn-primary" style="width: 20%">google Login</button></a>
+                <a href="{% url "social:begin" "facebook" %}"><button class="btn btn-primary" style="width: 20%">facebook Login</button></a>
             </div>
             <div class="white-panel">
                 <div class="login-show">
