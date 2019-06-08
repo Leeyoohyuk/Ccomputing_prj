@@ -1,8 +1,6 @@
  {% extends 'web/baseline.html' %}
 {% block content %}
-    <style type="text/css">
-    </style>
-    <style>
+<style>
       #dropFileForm{
          margin:16px;
          text-align: center;
@@ -15,8 +13,9 @@
          background-color:rgba(0,255,0,0.5);
          display:block;
          padding:16px;
-         position:relative;
+         /* position:absolute; */
          cursor:pointer;
+         width:50%;
       }
 
       #dropFileForm #fileInput{
@@ -25,7 +24,7 @@
 
       #dropFileForm #fileLable:after,
       #dropFileForm #fileLable:before{
-         position:absolute;
+         /*position:absolute; */
          content:"";
          top:0;
          bottom:0;
@@ -60,29 +59,30 @@
       #dropFileForm.flieHover{
          box-shadow:0 0 16px #43ff19;
       }
-    </style>
+</style>
 <center>
 	<div>
-{#        <form id="dropFileForm", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" method="post">#}
-{#            {% csrf_token %}#}
-{#            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event)"><label for="fileInput" id ="fileLable" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">#}
-{#                <i class = "fa fa-download fa-5x"></i>#}
-{#                <br>#}
-{#                <span id ="fileLableText">#}
-{#                Choose a file or drag it here#}
-{#                </span>#}
-{#                <br>#}
-{#                <span id="uploadStatus"></span>#}
-{#            </label>#}
-{#            <input type="submit" value="Upload" class="uploadButton">#}
-{#        </form>#}
-		<form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >
-			{% csrf_token %}
-			<div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue" >
-				<input type="file" name="file">
-			</div>
-				<button style="margin-top: 10px" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>
-		</form>
+        <form id="dropFileForm", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" method="post">
+            {% csrf_token %}
+            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event)">
+            <label for="fileInput" id ="fileLable" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">
+                <i class = "fa fa-download fa-5x"></i>
+                <br>
+                <span id ="fileLableText">
+                    Choose a file or drag it here
+                </span>
+                <br>
+                <span id="uploadStatus"></span>
+            </label>
+            <input type="submit" value="Upload" class="uploadButton">
+        </form>
+{#		<form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >#}
+{#			{% csrf_token %}#}
+{#			<div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue" >#}
+{#				<input type="file" name="file">#}
+{#			</div>#}
+{#				<button style="margin-top: 10px" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>#}
+{#		</form>#}
 	</div>
 </center>
 <div>
@@ -196,7 +196,7 @@
         }
 
         function addFiles(event){
-          droppedFiles=event.target.files || event.dataTransfer.files;
+          droppedFiles=event.target.files || event.dataTransfer.files || event.dataTransfer.items;
           showFiles(droppedFiles);
         }
 
@@ -231,6 +231,7 @@
         function changeStatus(text){
           uploadStatus.innerText=text;
         }
+        //
     	function uploadChange(file) {
 		  var el = file.parentNode.parentNode.getElementsByTagName("*");
 		  for (var i = 0; i < el.length; i++) {

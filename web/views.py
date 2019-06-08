@@ -10,6 +10,8 @@ from web.serializers import FileSerializer
 def home(request):
     return render(request, 'registration/index.html')
 
+def aboutus(request):
+    return render(request, 'web/aboutus.html')
 
 # @login_required  # ¿Ï·á
 # def file_list(request, path='/'):
@@ -39,10 +41,15 @@ def file_upload(request, path="/"):
     file = request.FILES.get('file')
     files = {'file': file}
     file_serializer = FileSerializer(data=files)
+    print(files)
+    print(file_serializer)
     if file_serializer.is_valid():
         file_serializer.save()
         # upload to s3
         file_path = '.' + file_serializer.data.get('file')
+        print(file_path)
+        print("dfas")
+        print(file_serializer.data)
         user = request.user
         print('file upload 시작')
         data = s3_interface.upload_file(s3_interface.BUCKET, user.username, file_path,

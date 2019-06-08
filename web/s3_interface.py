@@ -9,7 +9,6 @@ BUCKET = awsconf.AWS_STORAGE_BUCKET_NAME
 
 
 def list_path(bucket, user, path):
-
     files = []
     # get list
     objects = S3.list_objects(Bucket=bucket, Prefix='{}/{}'.format(user, path), Delimiter='/')

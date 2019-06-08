@@ -39,6 +39,8 @@
                             <input type="submit" value="Login">
                         <!--<a href="">Forgot password?</a>-->
                     </form>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-danger" style="width: 100%">G+
+                    Login</button></a>
                 </div>
                 <div class="register-show">
                     <form action="{% url 'signup' %}" method="post">
