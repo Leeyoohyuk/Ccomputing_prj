@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path, include
+from web.views import oAuth_signup
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 LOGIN_REDIRECT_URL='/list/' # JYW redirect path
@@ -25,6 +26,7 @@ LOGIN_REDIRECT_URL='/list/' # JYW redirect path
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('web.urls'), name='home'),
-    url(r'^accounts/logout/$', views.LogoutView.as_view(), name='logout', kwargs={'next_page': '/home/'}),
-    url('', include('social_django.urls', namespace='social')),
+    url(r'^login_check/', oAuth_signup, name='check'),
+#    url(r'^accounts/logout/$', views.LogoutView.as_view(), name='logout', kwargs={'next_page': '/home/'}),
+    url(r'^auth/', include('social_django.urls', namespace='social')),
 ]

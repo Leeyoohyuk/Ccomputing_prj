@@ -1,70 +1,81 @@
  {% extends 'web/baseline.html' %}
 {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-      #dropFileForm{
-         margin:16px;
-         text-align: center;
-         border-radius:8px;
-         overflow:hidden;
-         transition:5s;
-      }
+     #dropFileForm{
+      margin:16px;
+      text-align: center;
+      border-radius:8px;
+      overflow:hidden;
+      transition:5s;
+      width:70%;
+    }
 
-      #dropFileForm #fileLable{
-         background-color:rgba(0,255,0,0.5);
-         display:block;
-         padding:16px;
-         /* position:absolute; */
-         cursor:pointer;
-         width:50%;
-      }
+    #dropFileForm #fileLable{
+      background-color:rgba(0,255,0,0.5);
+      display:block;
+      padding:16px;
+      position:relative;
+      cursor:pointer;
+      width:50%;
+      float: left;
+    }
+ #dropFileForm #fileList{
+      border: solid 0.5px black;
+      border-radius: 8px;
+      display:block;
+      padding:16px;
+      position:relative;
+      width:50%;
+      float:right;
+ }
+    #dropFileForm #fileInput{
+      display:none;
+    }
 
-      #dropFileForm #fileInput{
-         display:none;
-      }
+    #dropFileForm #fileLable:after,
+    #dropFileForm #fileLable:before{
+      position:absolute;
+      content:"";
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      background-color: #fff;
+      z-index:-2;
+      border-radius:8px 8px 0 0;
+    }
 
-      #dropFileForm #fileLable:after,
-      #dropFileForm #fileLable:before{
-         /*position:absolute; */
-         content:"";
-         top:0;
-         bottom:0;
-         left:0;
-         right:0;
-         background-color: #fff;
-         z-index:-2;
-         border-radius:8px 8px 0 0;
-      }
+    #dropFileForm #fileLable:before{
+      z-index:-1;
+      background:repeating-linear-gradient(45deg, transparent, transparent 5%, black 5%, black 10%);
+      opacity:0;
+      transition:.5s;
+    }
 
-      #dropFileForm #fileLable:before{
-         z-index:-1;
-         background:repeating-linear-gradient(45deg, transparent, transparent 5%, black 5%, black 10%);
-         opacity:0;
-         transition:.5s;
-      }
+    #dropFileForm.fileHover #fileLable:before{
+      opacity:.25;
+    }
 
-      #dropFileForm.fileHover #fileLable:before{
-         opacity:.5;
-      }
+    #dropFileForm .uploadButton{
+      border:0;
+      outline:0;
+      width:100%;
+      padding:8px;
+      background-color:#43ff19;
+      color:#fff;
+      cursor:pointer;
+    }
 
-      #dropFileForm .uploadButton{
-         border:0;
-         outline:0;
-         width:50%;
-         padding:8px;
-         background-color:#43ff19;
-         color:#fff;
-         cursor:pointer;
-      }
-
-      #dropFileForm.flieHover{
-         box-shadow:0 0 16px #43ff19;
-      }
+    #dropFileForm.flieHover{
+      box-shadow:0 0 16px #43ff19;
+    }
 </style>
 <center>
-	<div>
+  <div>
         <form id="dropFileForm", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" method="post">
             {% csrf_token %}
-            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event)">
+            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event); addFileslist(event);">
             <label for="fileInput" id ="fileLable" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">
                 <i class = "fa fa-download fa-5x"></i>
                 <br>
@@ -74,106 +85,126 @@
                 <br>
                 <span id="uploadStatus"></span>
             </label>
+
             <input type="submit" value="Upload" class="uploadButton">
         </form>
-{#		<form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >#}
-{#			{% csrf_token %}#}
-{#			<div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue" >#}
-{#				<input type="file" name="file">#}
-{#			</div>#}
-{#				<button style="margin-top: 10px" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>#}
-{#		</form>#}
-	</div>
+
+{#    <form method="post", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" >#}
+{#      {% csrf_token %}#}
+{#      <div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue" >#}
+{#        <input type="file" name="file">#}
+{#      </div>#}
+{#        <button style="margin-top: 10px;" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>#}
+{#    </form>#}
+  </div>
 </center>
-<div>
-	<button class="ui primary button" style="margin-left: 24%" onclick="make_folder()"><i class="plus icon"></i>폴더 만들기</button>
+
+<div style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:27%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:left;">
+  <button class="ui primary button" style="display: block; width:200px;padding:1rem;border-right:0.5rem solid #efefef" onclick="make_folder()"><i class="plus icon"></i>폴더 만들기</button>
+
     <!--
     <input type="checkbox" name="sort" value="sorted"> 이름 순 정렬 <br>
     <button class="text-center"><a class= "btn btn-primary btn-lg" href="{#% url 'file_list' path=''%#}" role ="button">이름순 정렬</a></button>
     -->
-	<div style="display: none;" id="dir_make">
-			<input type="text" id="dir_name">
-			<button class="ui primary button" onclick="make_directory()">만들기</button>
-	</div>
+  <div style="display: none;" id="dir_make">
+      <input type="text" id="dir_name">
+      <button class="ui primary button" onclick="make_directory()">만들기</button>
+  </div>
+  <br>
+       <th class="file_list_view" style="color:white;">폴더 목록</th><br>
+    <tbody style="display:block;">
+      {% if path != "" %}
+        <td>
+              <a onclick="go_parent()" style="cursor: pointer;"><i class="folder icon"></i> 상위폴더</a><br>
+      </td>
+    {% endif %}
 
-</div>
-<br>
-
-<center>
-	<table style="margin-top: 7px" class="ui celled striped collapsing table">
-	  <thead>
-
-	    <tr><th class="nine wide">/{{ path }}</th>
-	    	<th class="center aligned">경로</th>
-	    	 <th class="center aligned">복사</th>
-	    	  <th class="center aligned">이동</th>
-	    	   <th class="collapsing">삭제</th>
-	    	   <th class="collapsing">다운로드</th>
-	  </tr></thead>
-	  <tbody>
-	  	{% if path != "" %}
-	  		<td>
-		        	<a onclick="go_parent()"><i class="folder icon"></i> ...</a>
-			</td>
-		{% endif %}
-
-		   <tr>
-		   		{% for file in files %}
-		      <td class="collapsing">
-		      	{% if file.type == "directory" %}
+       <tr>
+          {% for file in files %}
+          <td class="collapsing" >
+            {% if file.type == "directory" %}
                     {% if file.name != 'waste' %}
                         {% with new_path=path|add:file.name|add:'/' %}
-                        <a href="{% url 'file_list' path=new_path %}" ><i class="folder icon"></i> {{file.name}}</a>
+                        <a style="color:white;" href="{% url 'file_list' path=new_path %}" style="border:1px solid black"><i class="folder icon"></i> {{file.name}}<br></a>
                         {% endwith %}
                     {% endif %}
-		        {% else %}
-		        	{% with new_path=path|add:file.name %}
-		        	<a style="color: black" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a>
-		        	{% endwith %}
-		        {% endif %}
-		      </td>
-		      <td>
-		      	    {% if file.type != "directory" %}
-		      		{% with old_path=path|add:file.name %}
-		      		<input placeholder="dir/test.txt" type="text" id="{{ old_path }}">
-		        	{% endwith %}
-		        	{% endif %}
+            {% else %}
+              {% with new_path=path|add:file.name %}
 
-		      </td>
-		      <td class="collapsing">
-		      	<div>
-		      		{% if file.type != "directory" %}
-		      		{% with old_path=path|add:file.name %}
-		        	<a style="color: black" id= "copy_path" onclick="copy('{{ old_path }}')"><i class="copy outline icon"></i></a>
-		        	{% endwith %}
-		        	{% endif %}
-		        </div>
-		      </td>
+              {% endwith %}
+            {% endif %}
+          </td>
 
-		      <td class="center aligned collapsing">
-		      		{% if file.type != "directory" %}
-		      		{% with old_path=path|add:file.name %}
-		      		<a style="color: black"  onclick="move('{{ old_path }}')"><i class="sign out alternate icon"></i></a>
-		      		{% endwith %}
-		      		{% endif %}
-		      </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</div>
 
-		        <td class="center aligned collapsing">
-		      		{% with new_path=path|add:file.name %}
-		        	<a  style="color: black" href="{% url 'file_delete' path=new_path %}"><i class="trash alternate outline icon"></i></a>
-		        	{% endwith %}
-		    	</td>
 
-				<td class="center aligned collapsing">
-					{% with new_path=path|add:file.name %}
-						<a  style="color: black" href="{% url 'file_download' path=new_path %}"><i class="download icon"></i></a>
-					{% endwith %}
-				</td>
-		    </tr>
-	    {% endfor %}
-	</tbody>
-	</table>
-</center>
+  <table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:73%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:right;" class="ui celled striped collapsing table">
+    <thead>
+
+      <tr><th class="nine wide" style="float:left;">/{{ path }}</th>
+        <th class="center aligned">경로</th>
+         <th class="center aligned">복사</th>
+          <th class="center aligned">이동</th>
+           <th class="collapsing">삭제</th>
+           <th class="collapsing">다운로드</th>
+    </tr></thead>
+    <tbody >
+       <tr>
+          {% for file in files %}
+           <td class="collapsing" >
+            {% if file.type == "directory" %}
+                    {% if file.name != 'waste' %}
+                        {% with new_path=path|add:file.name|add:'/' %}
+
+                        {% endwith %}
+                    {% endif %}
+            {% else %}
+              {% with new_path=path|add:file.name %}
+              <a style="color: black" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
+              {% endwith %}
+            {% endif %}
+          </td>
+          <td class="collapsing">
+            <div>
+              {% if file.type != "directory" %}
+              {% with old_path=path|add:file.name %}
+              <a style="color: white" id= "copy_path" onclick="copy('{{ old_path }}')"><i class="copy outline icon"></i></a>
+              {% endwith %}
+              {% endif %}
+            </div>
+          </td>
+
+          <td class="center aligned collapsing">
+              {% if file.type != "directory" %}
+              {% with old_path=path|add:file.name %}
+              <a style="color: black; cursor:pointer;"  onclick="move('{{ old_path }}')"><i class="fa fa-arrows" aria-hidden="true"></i></a>
+              {% endwith %}
+              {% endif %}
+          </td>
+
+            <td class="center aligned collapsing">
+                 {% if file.type != "directory" %}
+              {% with new_path=path|add:file.name %}
+              <a  style="color: black" href="{% url 'file_delete' path=new_path %}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+              {% endwith %}
+                  {% endif %}
+          </td>
+
+        <td class="center aligned collapsing">
+                {% if file.type != "directory" %}
+          {% with new_path=path|add:file.name %}
+            <a  style="color: black" href="{% url 'file_download' path=new_path %}"><i class="fa fa-download" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+          {% endwith %}
+            {% endif %}
+        </td>
+        </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+
 
     <script type="text/javascript">
         var dropFileForm=document.getElementById("dropFileForm");
@@ -181,6 +212,7 @@
         var uploadStatus=document.getElementById("uploadStatus");
         var fileLableText=document.getElementById("fileLableText");
         var fileInput=document.getElementById("fileInput")
+        var fileListText=document.getElementById("fileListText");
 
         function overrideDefault(event){
           event.preventDefault();
@@ -200,14 +232,20 @@
           showFiles(droppedFiles);
         }
 
+
+
         function showFiles(files){
           if(files.length > 1){
              fileLableText.innerText=files.length + "files selected";
+
           }
           else{
              fileLableText.innerText=files[0].name;
+
           }
         }
+
+
 
         function uploadFiles(event){
           event.preventDefault();
@@ -231,48 +269,49 @@
         function changeStatus(text){
           uploadStatus.innerText=text;
         }
+
         //
-    	function uploadChange(file) {
-		  var el = file.parentNode.parentNode.getElementsByTagName("*");
-		  for (var i = 0; i < el.length; i++) {
-		    var node = el[i];
-		    if (node.className == "file-text") {
-		      node.innerHTML = file.value;
-		      break;
-		    }
-		  }
-		}
-		function make_folder(){
-			document.getElementById("dir_make").style.display = "inline-block";
-		}
+      function uploadChange(file) {
+      var el = file.parentNode.parentNode.getElementsByTagName("*");
+      for (var i = 0; i < el.length; i++) {
+        var node = el[i];
+        if (node.className == "file-text") {
+          node.innerHTML = file.value;
+          break;
+        }
+      }
+    }
+    function make_folder(){
+      document.getElementById("dir_make").style.display = "inline-block";
+    }
 
-		function make_directory(){
+    function make_directory(){
 
-			dir = document.getElementById("dir_name").value;
-			console.log(dir)
-			var dir_path = "{{ path }}";
-			new_path = dir_path + dir + '/';
-			location.href = "{% url 'create_folder' path='' %}" + new_path;
-		}
-		function go_parent(){
-			var dir_path = "{{ path }}";
-			var dir_arr = dir_path.split('/');
-			dir_arr.pop();
-			dir_arr.pop();
-			var new_path = dir_arr.join('/');
-			location.href = "{% url 'file_list' path='' %}" + new_path;
-		}
+      dir = document.getElementById("dir_name").value;
+      console.log(dir)
+      var dir_path = "{{ path }}";
+      new_path = dir_path + dir + '/';
+      location.href = "{% url 'create_folder' path='' %}" + new_path;
+    }
+    function go_parent(){
+      var dir_path = "{{ path }}";
+      var dir_arr = dir_path.split('/');
+      dir_arr.pop();
+      dir_arr.pop();
+      var new_path = dir_arr.join('/');
+      location.href = "{% url 'file_list' path='' %}" + new_path;
+    }
 
-		function copy(old){
-			var copy_path = document.getElementById(old).value;
-			location.href = "/copy/"+old+"&" + copy_path;
-		}
+    function copy(old){
+      var copy_path = document.getElementById(old).value;
+      location.href = "/copy/"+old+"&" + copy_path;
+    }
 
-		function move(old){
-			var move_path = document.getElementById(old).value;
-			location.href = "/move/"+old+"&" + move_path;
+    function move(old){
+      var move_path = document.getElementById(old).value;
+      location.href = "/move/"+old+"&" + move_path;
 
-		}
+    }
 
     </script>
 {% endblock %}

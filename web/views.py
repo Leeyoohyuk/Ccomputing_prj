@@ -28,11 +28,13 @@ def aboutus(request):
 # ---------------file list 수정됨 ---------------------------------------
 
 @login_required  # ¿Ï·á
-def file_list(request, path='/'):
+def file_list(request, path):
     user = request.user
     data = s3_interface.list_path(user.username, path)
-    ret = data
-    ret['path'] = path
+    ret = data # 리스트 데이터를 ret에 저장하고
+    print(ret)
+    ret['path'] = path # 패스key와 현재 경로를 추가한다.
+    print(ret)
     return render(request, 'web/file_list.html', ret)
 
 #
@@ -71,8 +73,10 @@ def waste_list(request, path ='/'):
 @login_required # 완료
 def file_upload(request, path="/"):
     file = request.FILES.get('file')
-    files = {'file': file}
+    # created = request.FILES.get('')
+    files = {'file':file}
     file_serializer = FileSerializer(data=files)
+
     if file_serializer.is_valid():
         file_serializer.save()
         # upload to s3
@@ -111,7 +115,14 @@ def file_download(request, path):
     return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
 
 
-@login_required  # ¿Ï·á
+@login_required
+def file_volume(request, path):
+    user = request.user
+    volume = s3_interface.volume_file(user.username, path)
+    return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
+
+
+@login_required # ¿Ï·á
 def file_view(request, path):
     file = 'tempfile/' + path.split('/')[-1]
     r_path = path.split('/')[-1]
@@ -135,6 +146,7 @@ def file_copy(request, old_path, new_path):
         new_path = new_path + '/'
     return redirect('file_list', path=new_path)
 
+
 @login_required  # ¿Ï·á
 def file_move(request, old_path, new_path):
     user = request.user
@@ -144,12 +156,22 @@ def file_move(request, old_path, new_path):
         new_path = new_path + '/'
     return redirect('file_list', path=new_path)
 
+
 @login_required  # ¿Ï·á ## new_path를 waste 경로로 설정해서 만든다, 초기에 waste폴더 생성해야함
 def file_waste(request, path):
     user = request.user
     new_path = 'waste/' + path
-    s3_interface.move_file(user.username, path, 'waste/' + new_path)
+    s3_interface.move_file(user.username, path, new_path)
     new_path = "/".join(new_path.split("/")[:-1])
     if new_path != '':
         new_path = new_path + '/'
-    return redirect('file_list', path=new_path)
+    return redirect('waste_list', path=new_path)
+
+@login_required
+def oAuth_signup(request, path=''):
+    user = request.user
+    if s3_interface.exist_bucket(user.username+"-bloud-bucket-test") == False:
+        s3_interface.make_bucket(user.username)
+        s3_interface.make_directory(user.username, 'waste/')
+
+    return redirect('file_list', path=path)

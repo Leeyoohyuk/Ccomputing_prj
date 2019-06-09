@@ -160,7 +160,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "tempfile")
 
 # Login redirect
 
-LOGIN_REDIRECT_URL = '/list/'
+LOGIN_REDIRECT_URL = '/login_check/'
 LOGOUT_REDIRECT_URL = 'home'
 
 # AWS
@@ -170,4 +170,3 @@ LOGOUT_REDIRECT_URL = 'home'
 # to your project dependencies.
 AWS_ACCESS_KEY_ID = awsconf.AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY = awsconf.AWS_SECRET_ACCESS_KEY
-AWS_STORAGE_BUCKET_NAME = awsconf.AWS_STORAGE_BUCKET_NAME

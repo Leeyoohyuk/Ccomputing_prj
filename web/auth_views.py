@@ -7,18 +7,18 @@ from django.contrib.auth.models import User
 from web import s3_interface
 from web.forms import CreateUserForm
 
-def signin(request, path = ''):
+def signin(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('file_list', path = path)
+            return redirect('file_list', path = '')
         else:
             return redirect('home')
 
-def signup(request, path = ''):
+def signup(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -30,7 +30,7 @@ def signup(request, path = ''):
             login(request, user)
             s3_interface.make_bucket(user.username)
             s3_interface.make_directory(user.username, 'waste/')
-            return redirect('file_list', path = path)
+            return redirect('file_list', path = '')
         else:
             return redirect('home')
 
