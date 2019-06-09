@@ -75,7 +75,7 @@
   <div>
         <form id="dropFileForm", enctype="multipart/form-data", action="{% url 'file_upload' path=path %}" method="post">
             {% csrf_token %}
-            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event); addFileslist(event);">
+            <input type="file" name="file" id ="fileInput" multiple onchange="addFiles(event);">
             <label for="fileInput" id ="fileLable" ondragover="overrideDefault(event);fileHover();" ondragenter="overrideDefault(event);fileHover();" ondragleave="overrideDefault(event);fileHoverEnd();" ondrop="overrideDefault(event);fileHoverEnd();addFiles(event);">
                 <i class = "fa fa-download fa-5x"></i>
                 <br>
@@ -180,17 +180,18 @@
           <td class="center aligned collapsing">
               {% if file.type != "directory" %}
               {% with old_path=path|add:file.name %}
+
               <a style="color: black; cursor:pointer;"  onclick="move('{{ old_path }}')"><i class="fa fa-arrows" aria-hidden="true"></i></a>
               {% endwith %}
               {% endif %}
           </td>
 
             <td class="center aligned collapsing">
-                 {% if file.type != "directory" %}
-              {% with new_path=path|add:file.name %}
-              <a  style="color: black" href="{% url 'file_delete' path=new_path %}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+              {% if file.type != "directory" %}
+              {% with new_path=path|add:file.name bin_path='waste/'|add:file.name %}
+              <a style="color: black; cursor:pointer;"  href="{% url 'throw' old_path=new_path new_path=bin_path %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
               {% endwith %}
-                  {% endif %}
+              {% endif %}
           </td>
 
         <td class="center aligned collapsing">
@@ -228,7 +229,7 @@
         }
 
         function addFiles(event){
-          droppedFiles=event.target.files || event.dataTransfer.files || event.dataTransfer.items;
+          droppedFiles=event.target.files || event.dataTransfer.files
           showFiles(droppedFiles);
         }
 
@@ -244,7 +245,6 @@
 
           }
         }
-
 
 
         function uploadFiles(event){
@@ -310,7 +310,6 @@
     function move(old){
       var move_path = document.getElementById(old).value;
       location.href = "/move/"+old+"&" + move_path;
-
     }
 
     </script>

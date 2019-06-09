@@ -57,6 +57,8 @@ def list_path(user, path):
 #                 files.append({'type': 'file', 'name': file, 'time': obj.get("LastModified")})
 #     return {'files': files}
 #
+
+
 def exist_bucket(name):
     s3 = boto3.resource('s3', aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
     aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY)
@@ -87,11 +89,11 @@ def make_bucket(user):
 
 
 def move_file(user, old_path, new_path):
-    S3.copy_object(Bucket=user + "-bloud-bucket-test", CopySource=user + "-bloud-bucket-test" + old_path, Key=new_path)
+    S3.copy_object(Bucket=user + "-bloud-bucket-test", CopySource=user + "-bloud-bucket-test/" + old_path, Key=new_path)
     S3.delete_object(Bucket=user + "-bloud-bucket-test", Key=old_path)
     return
 
 
 def copy_file(user, old_path, new_path):
-    S3.copy_object(Bucket= user + "-bloud-bucket-test", CopySource=user + "-bloud-bucket-test" + old_path, Key=new_path)
+    S3.copy_object(Bucket= user + "-bloud-bucket-test", CopySource=user + "-bloud-bucket-test/" + old_path, Key=new_path)
     return

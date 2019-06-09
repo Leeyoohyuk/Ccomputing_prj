@@ -67,7 +67,7 @@ def waste_list(request, path ='/'):
     data = s3_interface.list_path(user.username, path)
     ret = data
     ret['path'] = path
-    # return render(request, '--- 여기에 새로운 front ', ret)
+    return render(request, 'web/waste_list.html', ret)
 
 
 @login_required # 완료
@@ -154,18 +154,20 @@ def file_move(request, old_path, new_path):
     new_path = "/".join(new_path.split("/")[:-1])
     if new_path != '':
         new_path = new_path + '/'
-    return redirect('file_list', path=new_path)
+    return redirect('file_list', path='')
 
 
-@login_required  # ¿Ï·á ## new_path를 waste 경로로 설정해서 만든다, 초기에 waste폴더 생성해야함
-def file_waste(request, path):
-    user = request.user
-    new_path = 'waste/' + path
-    s3_interface.move_file(user.username, path, new_path)
-    new_path = "/".join(new_path.split("/")[:-1])
-    if new_path != '':
-        new_path = new_path + '/'
-    return redirect('waste_list', path=new_path)
+# @login_required  # ¿Ï·á ## new_path를 waste 경로로 설정해서 만든다, 초기에 waste폴더 생성해야함
+# def file_waste(request, path):
+#     print("view 진입")
+#     user = request.user
+#     new_path = 'waste/' + path
+#     s3_interface.move_file(user.username, path, new_path)
+#     new_path = "/".join(new_path.split("/")[:-1])
+#     if new_path != '':
+#         new_path = new_path + '/'
+#     return redirect('waste_list', path=new_path)
+
 
 @login_required
 def oAuth_signup(request, path=''):

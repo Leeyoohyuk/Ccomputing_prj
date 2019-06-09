@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../../static/css/login_style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 
 <body>
@@ -25,10 +27,6 @@
                 <p>Then push the Register button!</p>
                 <label id="label-login" for="log-login-show">Register</label>
                 <input type="radio" name="active-log-panel" id="log-login-show">
-                # oAuth
-                {{id}}
-                <a href="{% url 'social:begin' 'google-plus' %}"><button class="btn btn-primary" style="width: 20%">google Login</button></a>
-                <a href="{% url "social:begin" "facebook" %}"><button class="btn btn-primary" style="width: 20%">facebook Login</button></a>
             </div>
             <div class="white-panel">
                 <div class="login-show">
@@ -40,8 +38,9 @@
                             <input type="submit" value="Login">
                         <!--<a href="">Forgot password?</a>-->
                     </form>
-                    <a href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-danger" style="width: 100%">G+
-                    Login</button></a>
+                    <h2>Sign in with Gooogle Account!</h2>
+                    <p>Then push the Google login button!</p>
+                    <a style="color:green; opacity:0.5;font-size:20px;" href="{% url 'social:begin' 'google-plus' %}"><i class="fab fa-google"></i>Google Login</a>
                 </div>
                 <div class="register-show">
                     <form action="{% url 'signup' %}" method="post">
@@ -211,6 +210,7 @@
     <script>
     AOS.init({ duration: 1200, });
     </script>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 </body>
 
 </html>
