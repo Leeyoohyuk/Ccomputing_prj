@@ -28,7 +28,8 @@ def signup(request, path = ''):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password, email=email)
             login(request, user)
-            s3_interface.make_directory(s3_interface.BUCKET, user.username, 'waste/')
+            s3_interface.make_bucket(user.username)
+            s3_interface.make_directory(user.username, 'waste/')
             return redirect('file_list', path = path)
         else:
             return redirect('home')
