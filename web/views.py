@@ -13,6 +13,9 @@ def home(request):
 def aboutus(request):
     return render(request, 'web/aboutus.html')
 
+def logout(request):
+    return render(request, 'registration/index.html')
+
 # @login_required  # ¿Ï·á
 # def file_list(request, path='/'):
 #     user = request.user
@@ -62,11 +65,13 @@ def file_list(request, path):
 #     return render(request, 'web/file_list.html', ret)
 
 
-def waste_list(request, path ='/'):
+def waste_list(request, path ='waste/'):
     user = request.user
     data = s3_interface.list_path(user.username, path)
-    ret = data
-    ret['path'] = path
+    ret = data  # 리스트 데이터를 ret에 저장하고
+    print(ret)
+    ret['path'] = path  # 패스key와 현재 경로를 추가한다.
+    print(ret)
     return render(request, 'web/waste_list.html', ret)
 
 

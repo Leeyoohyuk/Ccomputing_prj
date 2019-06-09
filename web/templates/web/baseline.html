@@ -24,10 +24,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-image: url(login.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     position: relative;
 }
 
@@ -231,7 +227,7 @@ Sidebar Nav
 
 .footer-main{
     width:100%;
-    height:auto;
+    height:300px;
     margin:auto;
     background: #3d3d3d;
     padding:30px 20px;
@@ -251,9 +247,8 @@ Sidebar Nav
 
 .footer-box{
     width:100%;
-    height:auto;
-    margin:auto;
-    margin-bottom:30px;
+    height:100px;
+    margin:0;
 }
 
 .footer-box h6{
@@ -296,7 +291,6 @@ Sidebar Nav
 .footer-right{
     width:215px;
     height:auto;
-    margin-top: 70px;
     float:right;
     margin-right: 70px;
 }
@@ -306,7 +300,6 @@ Sidebar Nav
     font-size:20px;
     color:#fff;
     text-align:right;
-    margin:0px;
     font-weight:bold;
     text-transform:uppercase;
     padding-bottom:15px;
@@ -398,6 +391,9 @@ b img{
                                 </li>
                             </ul>
                         </li>
+                          <li>
+                            <a href="{% url 'logout' %}"><i class="ion-md-exit"></i><span class="">logout</span></a>
+                        </li>
                     </ul>
                 </nav>
             </aside>
@@ -449,15 +445,6 @@ burger botton action
             <div class="footer-inner">
                 <div class="footer-left">
                     <div class="footer-box">
-                        <h6>PRODUCTS</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
-                    </div>
-                    <div class="footer-box">
                         <h6>HOW TO USE</h6>
                         <ul>
                             <li><b href="#">Products One</b></li>
@@ -474,15 +461,6 @@ burger botton action
                             <a style="color:white;" href="{% url 'aboutus' %}">Move to about us</a>
                         </ul>
                     </div>
-                    <div class="footer-box">
-                        <h6>INFORMATION</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="footer-left">
                     <div class="footer-box">
@@ -493,15 +471,6 @@ burger botton action
                             <li><b href="#"><i class="fa fa-facebook"></i>Facebook</b></li>
                             <li><b href="#"><i class="fa fa-linkedin"></i>Linkedin</b></li>
                             <li><b href="#"><i class="fa fa-rss"></i>Rss</b></li>
-                        </ul>
-                    </div>
-                    <div class="footer-box">
-                        <h6>SHARE</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
                         </ul>
                     </div>
                 </div>

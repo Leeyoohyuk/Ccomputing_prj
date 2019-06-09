@@ -1,4 +1,4 @@
- {% extends 'web/baseline.html' %}
+{% extends 'web/baseline.html' %}
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -155,13 +155,7 @@
        <tr>
           {% for file in files %}
            <td class="collapsing" >
-            {% if file.type == "directory" %}
-                    {% if file.name != 'waste' %}
-                        {% with new_path=path|add:file.name|add:'/' %}
-
-                        {% endwith %}
-                    {% endif %}
-            {% else %}
+            {% if file.type != "directory" %}
               {% with new_path=path|add:file.name %}
               <a style="color: black" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
               {% endwith %}
