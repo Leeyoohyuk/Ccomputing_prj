@@ -71,6 +71,16 @@
       box-shadow:0 0 16px #43ff19;
     }
 </style>
+    {% if messages %}
+         {% for message in messages %}
+            <div id="some_flag_1" title="Some Flag_1">
+                <script type="text/javascript">
+                    window.prompt("Copy to clipboard: Ctrl+C", "{% autoescape off %}{{ message }}{% endautoescape %}");
+                </script>
+            </div>
+        {% endfor %}
+    {% endif %}
+
 <center>
     <div>
         <form id="dropFileForm" , enctype="multipart/form-data" , action="{% url 'file_upload' path=path %}" method="post">
@@ -199,7 +209,7 @@
             <td class="collapsing" >
             {% if file.type != "directory" %}
               {% with new_path=path|add:file.name %}
-            <a  style="color: black" href="{% url 'file_share' path=new_path %}"><i class="fas fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+            <a  style="color: black" href="{% url 'file_share' path=new_path %}"><i class="fa fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
               {% endwith %}
             {% endif %}
             </td>
@@ -311,6 +321,10 @@ function copy(old) {
 function move(old) {
     var move_path = document.getElementById(old).value;
     location.href = "/move/" + old + "&" + move_path;
+}
+
+function decode(message) {
+    var
 }
 </script>
 {% endblock %}

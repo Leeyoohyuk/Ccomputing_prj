@@ -95,7 +95,7 @@ def share_file(user, path):
                                                 Params={'Bucket': user+"-bloud-bucket-test",
                                                         'Key': path},
                                                 ExpiresIn=120)
-
+    print(url)
     return url
 
 def move_file(user, old_path, new_path):

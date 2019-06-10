@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from web import s3_interface
 from Bloud import settings
 from django.http import HttpResponse
@@ -17,63 +18,20 @@ def aboutus(request):
     return render(request, 'web/aboutus.html')
 
 
-# @login_required  # ¿Ï·á
-# def file_list(request, path='/'):
-#     user = request.user
-#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
-#     sort_option = request.GET.get('sort','')
-#     if sort_option == 'time':
-#         data['files'] = sorted(data['files'], key=lambda k: k['time'])
-#     elif sort_option == 'name':
-#         data['files'] = sorted(data['files'], key=lambda k: k['name'])
-#     ret = data
-#     ret['path'] = path
-#     return render(request, 'web/file_list.html', ret)
-# ---------------file list 수정됨 ---------------------------------------
-
 @login_required  # ¿Ï·á
 def file_list(request, path):
     user = request.user
     data = s3_interface.list_path(user.username, path)
     ret = data # 리스트 데이터를 ret에 저장하고
-    print(ret)
     ret['path'] = path # 패스key와 현재 경로를 추가한다.
-    print(ret)
     return render(request, 'web/file_list.html', ret)
-
-
-#
-# def docu_list(request, path ='/'):
-#     user = request.user
-#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
-#     ret = data
-#     ret['path'] = path
-#     return render(request, 'web/file_list.html', ret)
-#
-#
-# def img_list(request, path ='/'):
-#     user = request.user
-#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
-#     ret = data
-#     ret['path'] = path
-#     return render(request, 'web/file_list.html', ret)
-#
-#
-# def media_list(request, path ='/'):
-#     user = request.user
-#     data = s3_interface.list_path(s3_interface.BUCKET, user.username, path)
-#     ret = data
-#     ret['path'] = path
-#     return render(request, 'web/file_list.html', ret)
 
 
 def waste_list(request, path ='waste/'):
     user = request.user
     data = s3_interface.list_path(user.username, path)
     ret = data  # 리스트 데이터를 ret에 저장하고
-    print(ret)
     ret['path'] = path  # 패스key와 현재 경로를 추가한다.
-    print(ret)
     return render(request, 'web/waste_list.html', ret)
 
 
@@ -95,6 +53,7 @@ def file_upload(request, path="/"):
             os.remove(file_path)
 
     return redirect('file_list', path=path)
+
 
 @login_required  # ¿Ï·á
 def create_folder(request, path):
@@ -119,13 +78,6 @@ def file_download(request, path):
     file = 'tempfile/' + path.split('/')[-1]
     user = request.user
     s3_interface.download_file(user.username, file, path)
-    return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
-
-
-@login_required
-def file_volume(request, path):
-    user = request.user
-    volume = s3_interface.volume_file(user.username, path)
     return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
 
 
@@ -161,10 +113,11 @@ def file_move(request, old_path, new_path):
     return redirect('file_list', path='')
 
 
-def file_share(request, path):
+def file_share(request, path = ''):
     user = request.user
-    s3_interface.share_file(user.username, path)
-    return redirect('file_list', path='')
+    url = (s3_interface.share_file(user.username, path))
+    messages.info(request, url, extra_tags='safe')  # 메세지
+    return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
 
 
 @login_required

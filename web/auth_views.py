@@ -18,8 +18,7 @@ def signin(request):
             login(request, user)
             return redirect('file_list', path = '')
         else:
-            messages.info(request, 'Failed_Sign_In', extra_tags='safe')  # 메세지
-            return render(request, 'registration/index.html', {'some_flag':True})
+            return render(request, 'registration/index.html',{'some_flag':True})
 
 def signup(request):
     if request.method == 'POST':
@@ -35,7 +34,7 @@ def signup(request):
             s3_interface.make_directory(user.username, 'waste/')
             return redirect('file_list', path = '')
         else:
-             return render(request, 'registration/index.html', {'some_flag_1':True})
+            return render(request, 'registration/index.html', {'some_flag_1':True})
 
 @login_required
 def delete_account(request):

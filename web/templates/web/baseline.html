@@ -34,10 +34,10 @@ body {
 
 .content {
     position: relative;
-    float:center;
+    float: center;
     margin-left: 16.5%;
-    width:70%;
-    top:-400px;
+    width: 70%;
+    top: -400px;
 }
 
 .wrapper {
@@ -225,117 +225,133 @@ Sidebar Nav
     transition: all 0.5s ease;
 }
 
-.footer-main{
-    width:100%;
-    height:300px;
-    margin:auto;
+.footer-main {
+    width: 100%;
+    height: 45%;
+    margin: auto;
     background: #3d3d3d;
-    padding:30px 20px;
+    padding: 30px 20px;
 }
 
-.footer-inner{
-    width:1200px;
-    height:auto;
-    margin:auto;
+.footer-inner {
+    width: 1200px;
+    height: auto;
+    margin: auto;
 }
 
-.footer-left{
-    width:300px;
-    height:auto;
-    float:left;
+.footer-left {
+    margin-left: 100px;
+    width: 300px;
+    height: auto;
+    float: left;
+    position: absolute;
+}
+.footer-left1 {
+    margin-left: 400px;
+    width: 300px;
+    height: auto;
+    float: left;
+    position: absolute;
+}
+.footer-left2 {
+    margin-left: 700px;
+    width: 300px;
+    height: auto;
+    float: left;
+    position: absolute;
 }
 
-.footer-box{
-    width:100%;
-    height:100px;
-    margin:0;
+.footer-box {
+    width: 100%;
+    height: 100px;
+    margin: 0;
 }
 
-.footer-box h6{
+.footer-box h6 {
     font-family: 'Raleway', sans-serif;
-    font-size:20px;
-    color:#fff;
-    text-align:left;
-    margin:0px;
-    font-weight:bold;
-    text-transform:uppercase;
-    padding-bottom:15px;
+    font-size: 20px;
+    color: #fff;
+    text-align: left;
+    margin: 0px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 15px;
 }
 
-.footer-box ul{
-    margin:0px;
-    padding:0px;
+.footer-box ul {
+    margin: 0px;
+    padding: 0px;
 }
 
-.footer-box ul li{
+.footer-box ul li {
     list-style-type: none;
     padding-top: 2px;
-    text-align:left;
+    text-align: left;
 }
 
-.footer-box ul li b{
-     font-family: 'Raleway', sans-serif;
-     font-size: 14px;
-     color:#999;
+.footer-box ul li b {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    color: #999;
 }
 
-.footer-box ul li b i{
-     font-size: 14px;
-     color:#fff;
-     width:20px;
-     height:auto;
-     padding-right: 25px;
+.footer-box ul li b i {
+    font-size: 14px;
+    color: #fff;
+    width: 20px;
+    height: auto;
+    padding-right: 25px;
 }
 
 
-.footer-right{
-    width:215px;
-    height:auto;
-    float:right;
+.footer-right {
+    width: 215px;
+    height: auto;
+    float: right;
     margin-right: 70px;
 }
 
-.footer-box h5{
+.footer-box h5 {
     font-family: 'Raleway', sans-serif;
-    font-size:20px;
-    color:#fff;
-    text-align:right;
-    font-weight:bold;
-    text-transform:uppercase;
-    padding-bottom:15px;
+    font-size: 20px;
+    color: #fff;
+    text-align: right;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 15px;
 }
 
-.footer-box p{
-   font-family: 'Raleway', sans-serif;
-     font-size: 14px;
-     color:#999;
-     padding-top:2px;
-     margin:0px;
-     text-align:right;
- }
-*{
-    margin:0px;
-    padding:0px;
-    box-sizing:border-box;
+.footer-box p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    color: #999;
+    padding-top: 2px;
+    margin: 0px;
+    text-align: right;
 }
 
-.fifth_int{
-    font-family:'Raleway', sans-serif;
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 
-b{
-    text-decoration:none;
-    outline:none;
+.fifth_int {
+    font-family: 'Raleway', sans-serif;
 }
 
-b img{
-    border:none;
+b {
+    text-decoration: none;
+    outline: none;
 }
 
-.clr{
-    clear:both;
+b img {
+    border: none;
 }
 
+.clr {
+    clear: both;
+}
 </style>
 
 <body>
@@ -355,7 +371,7 @@ b img{
                 <nav class="sidebar-nav">
                     <ul>
                         <li>
-                            <a href="#"><i class="ion-md-folder"></i> <span>My file</span></a>
+                            <a href="{% url 'file_list' path='' %}"><i class="ion-md-folder"></i> <span>My file</span></a>
                             <ul class="nav-flyout">
                                 <li>
                                     <a href="#"><i class="ion-md-images"></i>documents</a>
@@ -374,24 +390,24 @@ b img{
                         <li>
                             <a href="{% url 'waste_list' %}"><i class="ion-md-trash"></i><span class="">Trash</span></a>
                         </li>
+{#                        <li>#}
+{#                            <a href="#"><i class="ion-md-share"></i> <span class="">Share</span></a>#}
+{#                            <ul class="nav-flyout">#}
+{#                                <li>#}
+{#                                    <a href="#"><i class="ion-logo-facebook"></i>Facebook</a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#"><i class="ion-logo-twitter"></i>Twitter</a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#"><i class="ion-logo-googleplus"></i>Email</a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#"><i class="ion-md-share"></i>Make a link</a>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </li>#}
                         <li>
-                            <a href="#"><i class="ion-md-share"></i> <span class="">Share</span></a>
-                            <ul class="nav-flyout">
-                                <li>
-                                    <a href="#"><i class="ion-logo-facebook"></i>Facebook</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="ion-logo-twitter"></i>Twitter</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="ion-logo-googleplus"></i>Email</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="ion-md-share"></i>Make a link</a>
-                                </li>
-                            </ul>
-                        </li>
-                          <li>
                             <a href="{% url 'logout' %}"><i class="ion-md-exit"></i><span class="">logout</span></a>
                         </li>
                     </ul>
@@ -440,59 +456,55 @@ burger botton action
     <div class="page-footer">
     </div>
     <footer id="footer">
-       <section class="fifth_int">
-        <div class="footer-main">
-            <div class="footer-inner">
-                <div class="footer-left">
-                    <div class="footer-box">
-                        <h6>HOW TO USE</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
+        <section class="fifth_int">
+            <div class="footer-main">
+                <div class="footer-inner">
+                    <div class="footer-left">
+                        <div class="footer-box">
+                            <h6>HOW TO USE</h6>
+                            <ul>
+                                <li><b href="#">go to youtube</b></li>
+                            </ul>
+                        </div>
+                        <div class="footer-box">
+                            <h6>ABOUT US</h6>
+                            <ul>
+                                <a style="color:white;" href="{% url 'aboutus' %}">Move to about us</a>
+                            </ul>
+                        </div>
                     </div>
+                    <div class="footer-left1">
+                        <div class="footer-box">
+                            <h6>FOLLOW US</h6>
+                            <ul>
+                                <li><b href="#"><i class="fa fa-google-plus"></i>Google+</b></li>
+                                <li><b href="#"><i class="fa fa-twitter"></i>Twitter</b></li>
+                                <li><b href="#"><i class="fa fa-facebook"></i>Facebook</b></li>
+                                <li><b href="#"><i class="fa fa-linkedin"></i>Linkedin</b></li>
+                                <li><b href="#"><i class="fa fa-rss"></i>Rss</b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-left2">
+                        <div class="footer-box">
+                            <h5>CONTACT</h5>
+                            <p>Telephone: +82 10-6428-5828</p>
+                            <p>E-mail: ljyjh0118@gmail.com</p>
+                        </div>
+                        <div class="footer-box">
+                            <h5>LOCATION</h5>
+                            <p>Address: 1-0, Giheung-gu, Yongin-si Gyeonggi-do,,, Republic of Korea</p>
+                            <p>Phone: 031-201-2114</p>
+                        </div>
+                    </div>
+                    <div class="clr"></div>
                 </div>
-                <div class="footer-left">
-                    <div class="footer-box">
-                        <h6>ABOUT US</h6>
-                        <ul>
-                            <a style="color:white;" href="{% url 'aboutus' %}">Move to about us</a>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-left">
-                    <div class="footer-box">
-                        <h6>FOLLOW US</h6>
-                        <ul>
-                            <li><b href="#"><i class="fa fa-google-plus"></i>Google+</b></li>
-                            <li><b href="#"><i class="fa fa-twitter"></i>Twitter</b></li>
-                            <li><b href="#"><i class="fa fa-facebook"></i>Facebook</b></li>
-                            <li><b href="#"><i class="fa fa-linkedin"></i>Linkedin</b></li>
-                            <li><b href="#"><i class="fa fa-rss"></i>Rss</b></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-right">
-                    <div class="footer-box">
-                        <h5>CONTACT</h5>
-                        <p>Telephone: +82 10-6428-5828</p>
-                        <p>E-mail: ljyjh0118@gmail.com</p>
-                    </div>
-                    <div class="footer-box">
-                        <h5>LOCATION</h5>
-                        <p>Address: 1-0, Giheung-gu, Yongin-si Gyeonggi-do,,, Republic of Korea</p>
-                        <p>Phone: 031-201-2114</p>
-                    </div>
-                </div>
-                <div class="clr"></div>
             </div>
-        </div>
-    </section>
+        </section>
     </footer>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src='{% static "js/bootstrap.js"%}'></script>
     <script src='{% static "semantic/dist/semantic.min.js"%}'></script>
 </body>
+
 </html>
