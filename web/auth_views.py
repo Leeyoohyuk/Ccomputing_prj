@@ -1,11 +1,13 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from web import s3_interface
 from web.forms import CreateUserForm
+
 
 def signin(request):
     if request.method == "POST":
@@ -16,7 +18,8 @@ def signin(request):
             login(request, user)
             return redirect('file_list', path = '')
         else:
-            return redirect('home')
+            messages.info(request, 'Failed_Sign_In', extra_tags='safe')  # 메세지
+            return render(request, 'registration/index.html', {'some_flag':True})
 
 def signup(request):
     if request.method == 'POST':
@@ -32,7 +35,7 @@ def signup(request):
             s3_interface.make_directory(user.username, 'waste/')
             return redirect('file_list', path = '')
         else:
-            return redirect('home')
+             return render(request, 'registration/index.html', {'some_flag_1':True})
 
 @login_required
 def delete_account(request):

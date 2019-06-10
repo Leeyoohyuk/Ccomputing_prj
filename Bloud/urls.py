@@ -27,6 +27,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('web.urls'), name='home'),
     url(r'^login_check/', oAuth_signup, name='check'),
-#    url(r'^accounts/logout/$', views.LogoutView.as_view(), name='logout', kwargs={'next_page': '/home/'}),
+    url(r'^accounts/logout/$', views.LogoutView.as_view(), name='logout', kwargs={'next_page': '/home/'}),
     url(r'^auth/', include('social_django.urls', namespace='social')),
 ]

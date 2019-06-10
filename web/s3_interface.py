@@ -1,5 +1,7 @@
 import boto3
 from boto3.s3.transfer import TransferConfig
+from botocore.exceptions import ClientError
+
 from Bloud import awsconf
 
 S3 = boto3.client(
@@ -87,6 +89,14 @@ def make_bucket(user):
     return S3.create_bucket(Bucket=user + "-bloud-bucket-test", CreateBucketConfiguration={
         'LocationConstraint': 'ap-northeast-2'})
 
+
+def share_file(user, path):
+    url = S3.generate_presigned_url('get_object',
+                                                Params={'Bucket': user+"-bloud-bucket-test",
+                                                        'Key': path},
+                                                ExpiresIn=120)
+
+    return url
 
 def move_file(user, old_path, new_path):
     S3.copy_object(Bucket=user + "-bloud-bucket-test", CopySource=user + "-bloud-bucket-test/" + old_path, Key=new_path)

@@ -12,7 +12,6 @@ urlpatterns = [
     # blog
     url(r'^$', views.home, name='home'),
     url(r'^aboutus/$', views.aboutus, name='aboutus'),
-    url(r'^logout/$', views.logout, name='logout'),
     url(r'^waste/$', views.waste_list, name='waste_list'),
     url(r'^list/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/)*)$', views.file_list, name='file_list'),
     url(r'^upload/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/)*)$', views.file_upload,
@@ -33,4 +32,6 @@ urlpatterns = [
         name='file_delete'),
     url(r'^download/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/*)*)$', views.file_download,
         name='file_download'),
+    url(r'^share/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/*)*)$', views.file_share,
+        name='file_share'),
 ]

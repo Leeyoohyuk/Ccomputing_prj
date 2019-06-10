@@ -8,13 +8,14 @@ from web.serializers import FileSerializer
 
 
 def home(request):
+    if request.user.is_authenticated:
+        return redirect('file_list', path = '')
     return render(request, 'registration/index.html')
+
 
 def aboutus(request):
     return render(request, 'web/aboutus.html')
 
-def logout(request):
-    return render(request, 'registration/index.html')
 
 # @login_required  # ¿Ï·á
 # def file_list(request, path='/'):
@@ -39,6 +40,7 @@ def file_list(request, path):
     ret['path'] = path # 패스key와 현재 경로를 추가한다.
     print(ret)
     return render(request, 'web/file_list.html', ret)
+
 
 #
 # def docu_list(request, path ='/'):
@@ -156,27 +158,19 @@ def file_copy(request, old_path, new_path):
 def file_move(request, old_path, new_path):
     user = request.user
     s3_interface.move_file(user.username, old_path, new_path)
-    new_path = "/".join(new_path.split("/")[:-1])
-    if new_path != '':
-        new_path = new_path + '/'
     return redirect('file_list', path='')
 
 
-# @login_required  # ¿Ï·á ## new_path를 waste 경로로 설정해서 만든다, 초기에 waste폴더 생성해야함
-# def file_waste(request, path):
-#     print("view 진입")
-#     user = request.user
-#     new_path = 'waste/' + path
-#     s3_interface.move_file(user.username, path, new_path)
-#     new_path = "/".join(new_path.split("/")[:-1])
-#     if new_path != '':
-#         new_path = new_path + '/'
-#     return redirect('waste_list', path=new_path)
+def file_share(request, path):
+    user = request.user
+    s3_interface.share_file(user.username, path)
+    return redirect('file_list', path='')
 
 
 @login_required
 def oAuth_signup(request, path=''):
     user = request.user
+    print('\n\n\n'+user.first_name + str(user.date_joined))
     if s3_interface.exist_bucket(user.username+"-bloud-bucket-test") == False:
         s3_interface.make_bucket(user.username)
         s3_interface.make_directory(user.username, 'waste/')

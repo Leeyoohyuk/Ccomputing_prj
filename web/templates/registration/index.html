@@ -14,6 +14,32 @@
 </head>
 
 <body>
+
+    {% if some_flag %}
+       <div id="some_flag" title="Some Flag">
+        <script type="text/javascript">
+            alert("Login Failed");
+      </script>
+       </div>
+   {% endif %}
+
+
+    {% if some_flag_1 %}
+    <div id="some_flag_1" title="Some Flag_1">
+          <script type="text/javascript">
+            alert("SignIn Failed");
+      </script>
+    </div>
+   {% endif %}
+    {% if some_flag_2 %}
+    <div id="some_flag_2" title="Some Flag_2">
+          <script type="text/javascript">
+            alert("Log Out!");
+      </script>
+    </div>
+   {% endif %}
+
+
     <section class="login_section" id="section1">
         <div class="login-reg-panel">
             <div class="login-info-box">
@@ -173,8 +199,8 @@
     </section>
     <script>
     /*
-		로그인 애니메이션 구현 (양옆이동)
-		 */
+      로그인 애니메이션 구현 (양옆이동)
+       */
     $(document).ready(function() {
         $('.login-info-box').fadeOut();
         $('.login-show').addClass('show-log-panel');
