@@ -27,6 +27,31 @@ def user_file(request, path):
     return render(request, 'web/user_file.html', ret)
 
 
+@login_required  # ¿Ï·á
+def text_file(request):
+    user = request.user
+    data = s3_interface.text_list(user.username)
+    ret = data  # 리스트 데이터를 ret에 저장하고
+    return render(request, 'web/extension_file.html', ret)
+
+
+@login_required  # ¿Ï·á
+def img_file(request):
+    user = request.user
+    data = s3_interface.img_list(user.username)
+    ret = data  # 리스트 데이터를 ret에 저장하고
+    return render(request, 'web/extension_file.html', ret)
+
+
+@login_required  # ¿Ï·á
+def media_file(request):
+    user = request.user
+    data = s3_interface.media_list(user.username)
+    ret = data  # 리스트 데이터를 ret에 저장하고
+    return render(request, 'web/extension_file.html', ret)
+
+
+@login_required  # ¿Ï·á
 def waste_file(request, path ='waste/'):
     user = request.user
     data = s3_interface.dir_path(user.username, path)
@@ -67,10 +92,7 @@ def create_folder(request, path):
 def file_delete(request, path='/'):
     user = request.user
     s3_interface.delete_path(user.username, path)
-    new_path = "/".join(path.split("/")[:-1])
-    if new_path != '':
-        new_path = new_path + '/'
-    return redirect('user_file', path=new_path)
+    return redirect('waste_file')
 
 
 @login_required  # ¿Ï·á

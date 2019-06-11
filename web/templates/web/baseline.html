@@ -374,13 +374,13 @@ b img {
                             <a href="{% url 'user_file' path='' %}"><i class="ion-md-folder"></i> <span>My file</span></a>
                             <ul class="nav-flyout">
                                 <li>
-                                    <a href="#"><i class="ion-md-images"></i>documents</a>
+                                    <a href="{% url 'text_file' %}"><i class="ion-md-images"></i>documents</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="ion-md-images"></i>images</a>
+                                    <a href="{% url 'img_file' %}"><i class="ion-md-images"></i>images</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="ion-md-camera"></i>media</a>
+                                    <a href="{% url 'media_file' %}"><i class="ion-md-camera"></i>media</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'user_file' path='' %}"><i class="ion-md-cube"></i>view all</a>

@@ -1,0 +1,36 @@
+{% extends 'web/baseline.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:100%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:right;" class="ui celled striped collapsing table">
+    <thead>
+      <tr>
+        <th class="collapsing">음</th>
+      </tr>
+    </thead>
+    <tbody >
+       <tr>
+          {% for file in files %}
+          <td class="collapsing" >
+            {% if file.type != "directory" %}
+              {% with new_path=path|add:file.name %}
+              <a style="color: white" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
+              {% endwith %}
+            {% endif %}
+          </td>
+        </tr>
+            {% endfor %}
+  </tbody>
+  </table>
+
+
+    <script type="text/javascript">
+
+    function move(old){
+      var move_path = document.getElementById(old).value;
+      location.href = "/move/"+old+"&" + move_path;
+
+    }
+
+    </script>
+{% endblock %}

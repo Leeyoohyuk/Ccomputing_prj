@@ -8,11 +8,13 @@ S3 = boto3.client(
     's3',
     aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
     aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY)
+
+S3source = boto3.resource('s3', aws_access_key_id=awsconf.AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=awsconf.AWS_SECRET_ACCESS_KEY)
 ## Oauth로 로그인을하면 아이디가 ... 만들어지고 ... 이걸 가지고 버킷을 만드는데 원래는 signup에서 하던걸 ...
 
 def dir_path(user, path):
     files = []
-
     # get list
     objects = S3.list_objects(Bucket=user + "-bloud-bucket-test", Prefix='{}'.format(path), Delimiter='/')
     # get sub directorys
@@ -31,40 +33,42 @@ def dir_path(user, path):
 
     return {'files':files}
 
-    # if key.size > 1024 * 1024 * 1024:
-    #     volume = str(round(key.size / 1024 * 1024 * 1024, 2)) + 'GB'
-    # elif key.size > 1024 * 1024:
-    #     volume = str(round(key.size/1024*1024, 2)) + 'GB'
-    # elif key.size > 1024:
-    #     volume = str(round(key.size/1024, 2)) + 'MB'
-    # else:
-    #     volume = str(round(key.size, 2)) + 'B'
-# def extension_list(bucket, user):
-#     files = []
-#     # get list
-#     objects = S3.list_objects(Bucket=bucket, Prefix='{}/'.format(user), Delimiter='/')
-#
-#     # get sub directorys
-#     common_prefixes = objects.get('CommonPrefixes')
-#     if common_prefixes:
-#         for obj in common_prefixes:
-#             files.append({'type': 'directory', 'name': obj.get('Prefix').split('/')[-2]})
-#
-#     # get files
-#     contents = objects.get('Contents')
-#     if contents:
-#         for obj in contents:
-#             file = obj.get('Key').split('/')[-1]
-#             if file != '':
-#                 files.append({'type': 'file', 'name': file, 'time': obj.get("LastModified")})
-#     return {'files': files}
-#
+
+def text_list(user):
+    my_bucket = S3source.Bucket(user+"-bloud-bucket-test")
+    files = my_bucket.objects.all()
+    file_list = []
+    for file in files:
+        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.docx') or file.key.endswith('.txt')):
+            file_list.append({'type': 'file', 'name': file.key.split('/')[-1], 'time': file.get("LastModified")})
+
+    return {'files': file_list}
+
+
+def img_list(user):
+    my_bucket = S3source.Bucket(user + "-bloud-bucket-test")
+    files = my_bucket.objects.all()
+    file_list = []
+    for file in files:
+        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.jpg') or file.key.endswith('.png')):
+            file_list.append({'type': 'file', 'name': file.key.split('/')[-1] , 'time': file.get("LastModified")})
+
+    return {'files': file_list}
+
+
+def media_list(user):
+    my_bucket = S3source.Bucket(user + "-bloud-bucket-test")
+    files = my_bucket.objects.all()
+    file_list = []
+    for file in files:
+        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.mp3') or file.key.endswith('.mp4')):
+            file_list.append({'type': 'file', 'name': file.key.split('/')[-1], 'time': file.get("LastModified")})
+
+    return {'files': file_list}
 
 
 def exist_bucket(name):
-    s3 = boto3.resource('s3', aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY)
-    return (s3.Bucket(name) in s3.buckets.all())
+    return (S3source.Bucket(name) in S3source.buckets.all())
 
 
 def upload_file(user, local_path, key):
