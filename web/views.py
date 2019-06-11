@@ -24,6 +24,7 @@ def user_file(request, path):
     data = s3_interface.dir_path(user.username, path)
     ret = data # 리스트 데이터를 ret에 저장하고
     ret['path'] = path # 패스key와 현재 경로를 추가한다.
+    print('render 시작')
     return render(request, 'web/user_file.html', ret)
 
 

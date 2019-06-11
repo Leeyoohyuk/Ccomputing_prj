@@ -1,16 +1,21 @@
 import boto3
 from boto3.s3.transfer import TransferConfig
+from botocore.config import Config
 from botocore.exceptions import ClientError
 
 from Bloud import awsconf
 
 S3 = boto3.client(
     's3',
+    'ap-northeast-2',
     aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY)
+    aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY,
+    config=Config(signature_version='s3v4')
+)
 
 S3source = boto3.resource('s3', aws_access_key_id=awsconf.AWS_ACCESS_KEY_ID,
-                    aws_secret_access_key=awsconf.AWS_SECRET_ACCESS_KEY)
+                    aws_secret_access_key=awsconf.AWS_SECRET_ACCESS_KEY,
+                          )
 ## Oauth로 로그인을하면 아이디가 ... 만들어지고 ... 이걸 가지고 버킷을 만드는데 원래는 signup에서 하던걸 ...
 
 def dir_path(user, path):
@@ -30,7 +35,7 @@ def dir_path(user, path):
             file = obj.get('Key').split('/')[-1]
             if file != '':
                 files.append({'type':'file', 'name':file, 'time':obj.get("LastModified"), 'volume':obj.get('Size')})
-
+    print('dir path end')
     return {'files':files}
 
 
@@ -39,6 +44,7 @@ def text_list(user):
     files = my_bucket.objects.all()
     file_list = []
     for file in files:
+        print(file.key[:6])
         if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.docx') or file.key.endswith('.txt')):
             file_list.append({'type': 'file', 'name': file.key.split('/')[-1], 'time': file.get("LastModified")})
 

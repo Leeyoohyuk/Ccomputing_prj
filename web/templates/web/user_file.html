@@ -1,7 +1,13 @@
 {% extends 'web/baseline.html' %}
+{% load volume_fileter %}
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
     #dropFileForm{
       margin:16px;
       text-align: center;
@@ -9,15 +15,16 @@
       overflow:hidden;
       transition:5s;
       width:70%;
+            opacity:0.5;
     }
 
     #dropFileForm #fileLable{
-      background-color:rgba(0,255,0,0.5);
+        background-color:white;
       display:block;
       padding:16px;
       position:relative;
       cursor:pointer;
-      width:50%;
+      width:100%;
       float: left;
     }
  #dropFileForm #fileList{
@@ -28,6 +35,7 @@
       position:relative;
       width:50%;
       float:right;
+      font-family: 'Raleway', sans-serif;
  }
     #dropFileForm #fileInput{
       display:none;
@@ -62,8 +70,8 @@
       outline:0;
       width:100%;
       padding:8px;
-      background-color:#43ff19;
-      color:#fff;
+      background-color:white;
+      color:black;
       cursor:pointer;
     }
 
@@ -71,16 +79,6 @@
       box-shadow:0 0 16px #43ff19;
     }
 </style>
-    {% if messages %}
-         {% for message in messages %}
-            <div id="some_flag_1" title="Some Flag_1">
-                <script type="text/javascript">
-                    window.prompt("Copy to clipboard: Ctrl+C", "{% autoescape off %}{{ message }}{% endautoescape %}");
-                </script>
-            </div>
-        {% endfor %}
-    {% endif %}
-
 <center>
     <div>
         <form id="dropFileForm" , enctype="multipart/form-data" , action="{% url 'file_upload' path=path %}" method="post">
@@ -106,14 +104,6 @@
             {# </form>#}
     </div>
 </center>
-<form action="" method="post">
-    {% csrf_token %}
-    <input onchange='this.form.submit();' type="radio" name="paid" value="0">업로드순
-    <input onchange='this.form.submit();' type="radio" name="paid" value="1">크기순
-    <input onchange='this.form.submit();' type="radio" name="paid" value="2">날짜순
-    <input onchange='this.form.submit();' type="radio" name="paid" value="3">이름순
-</form>"
-</form>
 <div style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:27%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:left;">
     <button class="ui primary button" style="display: block; width:200px;padding:1rem;border-right:0.5rem solid #efefef" onclick="make_folder()"><i class="plus icon"></i>폴더 만들기</button>
     <!--
@@ -150,20 +140,20 @@
         {% endfor %}
     </tbody>
 </div>
-<table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:73%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:right;" class="ui celled striped collapsing table">
+<table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:73%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:right;" class="ui celled striped collapsing table" id="file_table">
     <thead>
         <tr>
-            <th class="nine wide" style="float:left;">/{{ path }}</th>
-            <th class="center aligned">경로</th>
-            <th class="center aligned">복사</th>
-            <th class="center aligned">이동</th>
+            <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">파일이름<button onclick="sortTD(0)">▲</button><button onclick="reverseTD(0)">▼</button></th>
+            <th class="center aligned">크기<button onclick="sortTD(1)">▲</button><button onclick="reverseTD(1)">▼</button></th>
+            <th class="center aligned">날짜<button onclick="sortTD(2)">▲</button><button onclick="reverseTD(2)">▼</button></th>
             <th class="collapsing">삭제</th>
             <th class="collapsing">다운로드</th>
+            <th class="center aligned">공유</th>
         </tr>
     </thead>
     <tbody>
+        {% for file in files %}
         <tr>
-            {% for file in files %}
             <td class="collapsing">
                 {% if file.type == "directory" %}
                 {% if file.name != 'waste' %}
@@ -172,51 +162,59 @@
                 {% endif %}
                 {% else %}
                 {% with new_path=path|add:file.name %}
-                <a style="color: black" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
+                <a style="color: white" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
                 {% endwith %}
                 {% endif %}
             </td>
-            <td class="collapsing">
-                <div>
-                    {% if file.type != "directory" %}
-                    {% with old_path=path|add:file.name %}
-                    <a style="color: white" id="copy_path" onclick="copy('{{ old_path }}')"><i class="copy outline icon"></i></a>
-                    {% endwith %}
-                    {% endif %}
-                </div>
-            </td>
-            <td class="center aligned collapsing">
+              <td class="collapsing">
                 {% if file.type != "directory" %}
-                {% with old_path=path|add:file.name %}
-                <a style="color: black; cursor:pointer;" onclick="move('{{ old_path }}')"><i class="fa fa-arrows" aria-hidden="true"></i></a>
+                {% with new_path=path|add:file.name %}
+                <a style="color: white" ><i class="file outline icon"></i> {{file.volume|volume_filter}} </a>
+                {% endwith %}
+                {% endif %}
+            </td>
+
+            <td class="collapsing">
+                {% if file.type != "directory" %}
+                {% with new_path=path|add:file.name %}
+                <a style="color: white" ><i class="file outline icon"></i> {{file.time}} </a>
                 {% endwith %}
                 {% endif %}
             </td>
             <td class="center aligned collapsing">
                 {% if file.type != "directory" %}
                 {% with new_path=path|add:file.name bin_path='waste/'|add:file.name %}
-                <a style="color: black; cursor:pointer;" href="{% url 'throw' old_path=new_path new_path=bin_path %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a style="color: white; cursor:pointer;" href="{% url 'throw' old_path=new_path new_path=bin_path %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 {% endwith %}
                 {% endif %}
             </td>
             <td class="center aligned collapsing">
                 {% if file.type != "directory" %}
                 {% with new_path=path|add:file.name %}
-                <a style="color: black" href="{% url 'file_download' path=new_path %}"><i class="fa fa-download" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+                <a style="color: white" href="{% url 'file_download' path=new_path %}"><i class="fa fa-download" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
                 {% endwith %}
                 {% endif %}
             </td>
-            <td class="collapsing" >
-            {% if file.type != "directory" %}
-              {% with new_path=path|add:file.name %}
-            <a  style="color: black" href="{% url 'file_share' path=new_path %}"><i class="fa fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
-              {% endwith %}
-            {% endif %}
+            <td class="collapsing">
+                {% if file.type != "directory" %}
+                {% with new_path=path|add:file.name %}
+                <a style="color: black" href="{% url 'file_share' path=new_path %}"><i class="fa fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+                {% endwith %}
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% if messages %}
+{% for message in messages %}
+<div id="some_flag_1" title="Some Flag_1">
+    <script type="text/javascript">
+    window.prompt("Copy to clipboard: Ctrl+C", "{% autoescape off %}{{ message }}{% endautoescape %}");
+    </script>
+</div>
+{% endfor %}
+{% endif %}
 <script type="text/javascript">
 var dropFileForm = document.getElementById("dropFileForm");
 var droppedFiles = [];
@@ -323,8 +321,179 @@ function move(old) {
     location.href = "/move/" + old + "&" + move_path;
 }
 
-function decode(message) {
-    var
+function sortingNumber( a , b ){
+
+        if ( typeof a == "number" && typeof b == "number" ) return a - b;
+
+        // 천단위 쉼표와 공백문자만 삭제하기.
+        var a = ( a + "" ).replace( /[,\s\xA0]+/g , "" );
+        var b = ( b + "" ).replace( /[,\s\xA0]+/g , "" );
+
+        var numA = parseFloat( a ) + "";
+        var numB = parseFloat( b ) + "";
+
+        if ( numA == "NaN" || numB == "NaN" || a != numA || b != numB ) return false;
+
+        return parseFloat( a ) - parseFloat( b );
 }
+
+
+/* changeForSorting() : 문자열 바꾸기. */
+
+function changeForSorting( first , second ){
+
+        // 문자열의 복사본 만들기.
+        var a = first.toString().replace( /[\s\xA0]+/g , " " );
+        var b = second.toString().replace( /[\s\xA0]+/g , " " );
+
+        var change = { first : a, second : b };
+
+        if ( a.search( /\d/ ) < 0 || b.search( /\d/ ) < 0 || a.length == 0 || b.length == 0 ) return change;
+
+        var regExp = /(\d),(\d)/g; // 천단위 쉼표를 찾기 위한 정규식.
+
+        a = a.replace( regExp , "$1" + "$2" );
+        b = b.replace( regExp , "$1" + "$2" );
+
+        var unit = 0;
+        var aNb = a + " " + b;
+        var numbers = aNb.match( /\d+/g ); // 문자열에 들어있는 숫자 찾기
+
+        for ( var x = 0; x < numbers.length; x++ ){
+
+                var length = numbers[ x ].length;
+                if ( unit < length ) unit = length;
+        }
+
+        var addZero = function( string ){ // 숫자들의 단위 맞추기
+
+                var match = string.match( /^0+/ );
+
+                if ( string.length == unit ) return ( match == null ) ? string : match + string;
+
+                var zero = "0";
+
+                for ( var x = string.length; x < unit; x++ ) string = zero + string;
+
+                return ( match == null ) ? string : match + string;
+        };
+
+        change.first = a.replace( /\d+/g, addZero );
+        change.second = b.replace( /\d+/g, addZero );
+
+        return change;
+}
+
+
+/* byLocale() */
+
+function byLocale(){
+
+        var compare = function( a , b ){
+
+                var sorting = sortingNumber( a , b );
+
+                if ( typeof sorting == "number" ) return sorting;
+
+                var change = changeForSorting( a , b );
+
+                var a = change.first;
+                var b = change.second;
+
+                return a.localeCompare( b );
+        };
+
+        var ascendingOrder = function( a , b ){  return compare( a , b );  };
+        var descendingOrder = function( a , b ){  return compare( b , a );  };
+
+        return { ascending : ascendingOrder, descending : descendingOrder };
+}
+
+
+/* replacement() */
+
+function replacement( parent ){
+        var tagName = parent.tagName.toLowerCase();
+        if ( tagName == "table" ) parent = parent.tBodies[ 0 ];
+        tagName = parent.tagName.toLowerCase();
+        if ( tagName == "tbody" ) var children = parent.rows;
+        else var children = parent.getElementsByTagName( "li" );
+
+        var replace = {
+                order : byLocale(),
+                index : false,
+                array : function(){
+                        var array = [ ];
+                        for ( var x = 0; x < children.length; x++ ) array[ x ] = children[ x ];
+                        return array;
+                }(),
+                checkIndex : function( index ){
+                        if ( index ) this.index = parseInt( index, 10 );
+                        var tagName = parent.tagName.toLowerCase();
+                        if ( tagName == "tbody" && ! index ) this.index = 0;
+                },
+                getText : function( child ){
+                        if ( this.index ) child = child.cells[ this.index ];
+                        return getTextByClone( child );
+                },
+                setChildren : function(){
+                        var array = this.array;
+                        while ( parent.hasChildNodes() ) parent.removeChild( parent.firstChild );
+                        for ( var x = 0; x < array.length; x++ ) parent.appendChild( array[ x ] );
+                },
+                ascending : function( index ){ // 오름차순
+                        this.checkIndex( index );
+                        var _self = this;
+                        var order = this.order;
+                        var ascending = function( a, b ){
+                                var a = _self.getText( a );
+                                var b = _self.getText( b );
+                                return order.ascending( a, b );
+                        };
+                        this.array.sort( ascending );
+                        this.setChildren();
+                },
+                descending : function( index ){ // 내림차순
+                        this.checkIndex( index );
+                        var _self = this;
+                        var order = this.order;
+                        var descending = function( a, b ){
+                                var a = _self.getText( a );
+                                var b = _self.getText( b );
+                                return order.descending( a, b );
+                        };
+                        this.array.sort( descending );
+                        this.setChildren();
+                }
+        };
+        return replace;
+}
+
+function getTextByClone( tag ){
+        var clone = tag.cloneNode( true ); // 태그의 복사본 만들기.
+        var br = clone.getElementsByTagName( "br" );
+        while ( br[0] ){
+                var blank = document.createTextNode( " " );
+                clone.insertBefore( blank , br[0] );
+                clone.removeChild( br[0] );
+        }
+        var isBlock = function( tag ){
+                var display = "";
+                if ( window.getComputedStyle ) display = window.getComputedStyle ( tag, "" )[ "display" ];
+                else display = tag.currentStyle[ "display" ];
+                return ( display == "block" ) ? true : false;
+        };
+        var children = clone.getElementsByTagName( "*" );
+        for ( var x = 0; x < children.length; x++){
+                var child = children[ x ];
+                if ( ! ("value" in child) && isBlock(child) ) child.innerHTML = child.innerHTML + " ";
+        }
+        var textContent = ( "textContent" in clone ) ? clone.textContent : clone.innerText;
+        return textContent;
+}
+var myTable = document.getElementById( "file_table" );
+var replace = replacement( myTable );
+function sortTD( index ){    replace.ascending( index );    }
+function reverseTD( index ){    replace.descending( index );    }
 </script>
 {% endblock %}
