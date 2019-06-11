@@ -12,8 +12,8 @@ urlpatterns = [
     # blog
     url(r'^$', views.home, name='home'),
     url(r'^aboutus/$', views.aboutus, name='aboutus'),
-    url(r'^waste/$', views.waste_list, name='waste_list'),
-    url(r'^list/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/)*)$', views.file_list, name='file_list'),
+    url(r'^waste/$', views.waste_file, name='waste_file'),
+    url(r'^file/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/)*)$', views.user_file, name='user_file'),
     url(r'^upload/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/)*)$', views.file_upload,
         name='file_upload'),
     url(r'^view/(?P<path>([\w\s가-힣.\`\'\˜\=\+\#\ˆ\@\$\&\-\.\(\)\{\}\;\[\]]*/*)*)$', views.file_view, name='file_view'),

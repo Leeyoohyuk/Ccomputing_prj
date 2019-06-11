@@ -1256,7 +1256,7 @@
   <footer class="bg-light py-5">
     <div class="container">
         {% if user.is_authenticated %}
-	               <p class="text-center"><a class= "small text-center text-muted" href="{% url 'file_list' path=''%}" role ="button">Home</a></p>
+	               <p class="text-center"><a class= "small text-center text-muted" href="{% url 'user_file' path=''%}" role ="button">Home</a></p>
 	            {% else %}
                    <p class="text-center"><a class= "small text-center text-muted" href="{% url 'login' %}" role ="button">Home</a></p>
         {% endif %}

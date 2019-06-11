@@ -125,7 +125,7 @@
         <button class="ui primary button" onclick="make_directory()">만들기</button>
     </div>
     <br>
-    <th class="file_list_view" style="color:white;">폴더 목록</th><br>
+    <th class="user_file_view" style="color:white;">폴더 목록</th><br>
     <tbody style="display:block;">
         {% if path != "" %}
         <td>
@@ -138,7 +138,7 @@
                 {% if file.type == "directory" %}
                 {% if file.name != 'waste' %}
                 {% with new_path=path|add:file.name|add:'/' %}
-                <a style="color:white;" href="{% url 'file_list' path=new_path %}" style="border:1px solid black"><i class="fa fa-folder" aria-hidden="true"></i> {{file.name}}<br></a>
+                <a style="color:white;" href="{% url 'user_file' path=new_path %}" style="border:1px solid black"><i class="fa fa-folder" aria-hidden="true"></i> {{file.name}}<br></a>
                 {% endwith %}
                 {% endif %}
                 {% else %}
@@ -310,7 +310,7 @@ function go_parent() {
     dir_arr.pop();
     dir_arr.pop();
     var new_path = dir_arr.join('/');
-    location.href = "{% url 'file_list' path='' %}" + new_path;
+    location.href = "{% url 'user_file' path='' %}" + new_path;
 }
 
 function copy(old) {

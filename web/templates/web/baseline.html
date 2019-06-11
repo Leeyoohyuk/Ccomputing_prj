@@ -371,7 +371,7 @@ b img {
                 <nav class="sidebar-nav">
                     <ul>
                         <li>
-                            <a href="{% url 'file_list' path='' %}"><i class="ion-md-folder"></i> <span>My file</span></a>
+                            <a href="{% url 'user_file' path='' %}"><i class="ion-md-folder"></i> <span>My file</span></a>
                             <ul class="nav-flyout">
                                 <li>
                                     <a href="#"><i class="ion-md-images"></i>documents</a>
@@ -383,12 +383,12 @@ b img {
                                     <a href="#"><i class="ion-md-camera"></i>media</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'file_list' path='' %}"><i class="ion-md-cube"></i>view all</a>
+                                    <a href="{% url 'user_file' path='' %}"><i class="ion-md-cube"></i>view all</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="{% url 'waste_list' %}"><i class="ion-md-trash"></i><span class="">Trash</span></a>
+                            <a href="{% url 'waste_file' %}"><i class="ion-md-trash"></i><span class="">Trash</span></a>
                         </li>
 {#                        <li>#}
 {#                            <a href="#"><i class="ion-md-share"></i> <span class="">Share</span></a>#}

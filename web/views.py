@@ -10,7 +10,7 @@ from web.serializers import FileSerializer
 
 def home(request):
     if request.user.is_authenticated:
-        return redirect('file_list', path = '')
+        return redirect('user_file', path = '')
     return render(request, 'registration/index.html')
 
 
@@ -19,20 +19,20 @@ def aboutus(request):
 
 
 @login_required  # ¿Ï·á
-def file_list(request, path):
+def user_file(request, path):
     user = request.user
-    data = s3_interface.list_path(user.username, path)
+    data = s3_interface.dir_path(user.username, path)
     ret = data # 리스트 데이터를 ret에 저장하고
     ret['path'] = path # 패스key와 현재 경로를 추가한다.
-    return render(request, 'web/file_list.html', ret)
+    return render(request, 'web/user_file.html', ret)
 
 
-def waste_list(request, path ='waste/'):
+def waste_file(request, path ='waste/'):
     user = request.user
-    data = s3_interface.list_path(user.username, path)
+    data = s3_interface.dir_path(user.username, path)
     ret = data  # 리스트 데이터를 ret에 저장하고
     ret['path'] = path  # 패스key와 현재 경로를 추가한다.
-    return render(request, 'web/waste_list.html', ret)
+    return render(request, 'web/waste_file.html', ret)
 
 
 @login_required # 완료
@@ -52,7 +52,7 @@ def file_upload(request, path="/"):
         if os.path.exists(file_path):
             os.remove(file_path)
 
-    return redirect('file_list', path=path)
+    return redirect('user_file', path=path)
 
 
 @login_required  # ¿Ï·á
@@ -60,7 +60,7 @@ def create_folder(request, path):
     request.POST.get('dir_name')
     user = request.user
     s3_interface.make_directory(user.username, path)
-    return redirect('file_list', path=path)
+    return redirect('user_file', path=path)
 
 
 @login_required  # ¿Ï·á
@@ -70,7 +70,7 @@ def file_delete(request, path='/'):
     new_path = "/".join(path.split("/")[:-1])
     if new_path != '':
         new_path = new_path + '/'
-    return redirect('file_list', path=new_path)
+    return redirect('user_file', path=new_path)
 
 
 @login_required  # ¿Ï·á
@@ -78,7 +78,7 @@ def file_download(request, path):
     file = 'tempfile/' + path.split('/')[-1]
     user = request.user
     s3_interface.download_file(user.username, file, path)
-    return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
+    return redirect('user_file', path=path.replace(path.split('/')[-1], ''))
 
 
 @login_required # ¿Ï·á
@@ -103,21 +103,21 @@ def file_copy(request, old_path, new_path):
     new_path = "/".join(new_path.split("/")[:-1])
     if new_path != '':
         new_path = new_path + '/'
-    return redirect('file_list', path=new_path)
+    return redirect('user_file', path=new_path)
 
 
 @login_required  # ¿Ï·á
 def file_move(request, old_path, new_path):
     user = request.user
     s3_interface.move_file(user.username, old_path, new_path)
-    return redirect('file_list', path='')
+    return redirect('user_file', path='')
 
 
-def file_share(request, path = ''):
+def file_share(request, path=''):
     user = request.user
     url = (s3_interface.share_file(user.username, path))
     messages.info(request, url, extra_tags='safe')  # 메세지
-    return redirect('file_list', path=path.replace(path.split('/')[-1], ''))
+    return redirect('user_file', path=path.replace(path.split('/')[-1], ''))
 
 
 @login_required
@@ -128,4 +128,4 @@ def oAuth_signup(request, path=''):
         s3_interface.make_bucket(user.username)
         s3_interface.make_directory(user.username, 'waste/')
 
-    return redirect('file_list', path=path)
+    return redirect('user_file', path=path)

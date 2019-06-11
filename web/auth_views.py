@@ -16,7 +16,7 @@ def signin(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('file_list', path = '')
+            return redirect('user_file', path = '')
         else:
             return render(request, 'registration/index.html',{'some_flag':True})
 
@@ -32,7 +32,7 @@ def signup(request):
             login(request, user)
             s3_interface.make_bucket(user.username)
             s3_interface.make_directory(user.username, 'waste/')
-            return redirect('file_list', path = '')
+            return redirect('user_file', path = '')
         else:
             return render(request, 'registration/index.html', {'some_flag_1':True})
 

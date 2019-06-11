@@ -10,7 +10,7 @@ S3 = boto3.client(
     aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY)
 ## Oauth로 로그인을하면 아이디가 ... 만들어지고 ... 이걸 가지고 버킷을 만드는데 원래는 signup에서 하던걸 ...
 
-def list_path(user, path):
+def dir_path(user, path):
     files = []
 
     # get list
