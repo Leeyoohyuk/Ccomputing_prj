@@ -10,7 +10,7 @@
          <th class="collapsing"style="float:right;position:absolute;margin-left:60%">삭제</th>
       </tr>
     </thead>
-    <tbody >
+    <tbody>
        <tr>
           {% for file in files %}
           <td class="collapsing" >
@@ -19,13 +19,13 @@
             <td class="collapsing">
               <div>
                 {% with old_path=path|add:file.name new_path=file.name %}
-                <a style="color: black; cursor:pointer;" href="{% url 'restore' old_path=old_path new_path=new_path %}"><i class="fa fa-trash-restore-alt" aria-hidden="true"></i></a>
+                <a style="color: white; cursor:pointer;float:right;position:absolute;margin-left:71%;" href="{% url 'restore' old_path=old_path new_path=new_path %}"><i class="fa fa-refresh" aria-hidden="true"></i></a>
                 {% endwith %}
               </div>
             </td>
-                <td class="center aligned collapsing">
+            <td class="center aligned collapsing">
                 {% with new_path=path|add:file.name %}
-                <a style="color: black" href="{% url 'file_delete' path=new_path %}"><i class="fa fa-trash" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+                <a style="color: black" href="{% url 'file_delete' path=new_path %}"><i class="fa fa-trash" aria-hidden="true" style="color:white; float:right;position:absolute;margin-left:61%"></i></a>
                 {% endwith %}
             </td>
         </tr>

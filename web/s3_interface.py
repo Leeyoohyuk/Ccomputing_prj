@@ -1,13 +1,12 @@
 import boto3
 from boto3.s3.transfer import TransferConfig
 from botocore.config import Config
-from botocore.exceptions import ClientError
 
 from Bloud import awsconf
 
 S3 = boto3.client(
     's3',
-    'ap-northeast-2',
+    region_name='ap-northeast-2',
     aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
     aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY,
     config=Config(signature_version='s3v4')
@@ -16,7 +15,6 @@ S3 = boto3.client(
 S3source = boto3.resource('s3', aws_access_key_id=awsconf.AWS_ACCESS_KEY_ID,
                     aws_secret_access_key=awsconf.AWS_SECRET_ACCESS_KEY,
                           )
-## Oauth로 로그인을하면 아이디가 ... 만들어지고 ... 이걸 가지고 버킷을 만드는데 원래는 signup에서 하던걸 ...
 
 def dir_path(user, path):
     files = []
@@ -45,7 +43,7 @@ def text_list(user):
     file_list = []
     for file in files:
         print(file.key[:6])
-        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.docx') or file.key.endswith('.txt')):
+        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.docx') or file.key.endswith('.txt') or file.key.endswith('.hwp') or file.key.endswith('.xlsx')):
             file_list.append({'type': 'file', 'name': file.key.split('/')[-1], 'time': file.get("LastModified")})
 
     return {'files': file_list}
@@ -56,7 +54,7 @@ def img_list(user):
     files = my_bucket.objects.all()
     file_list = []
     for file in files:
-        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.jpg') or file.key.endswith('.png')):
+        if file != '' and file.key[:6] != 'waste/' and (file.key.endswith('.jpg') or file.key.endswith('.png') or file.key.endswith('.bmp')):
             file_list.append({'type': 'file', 'name': file.key.split('/')[-1] , 'time': file.get("LastModified")})
 
     return {'files': file_list}
@@ -83,8 +81,13 @@ def upload_file(user, local_path, key):
     return S3.upload_file(local_path, user + "-bloud-bucket-test", key, Config = config)
 
 
-def download_file(user, local_path, key):
-    return S3.download_file(user + "-bloud-bucket-test", key, local_path)
+def download_file(user, path):
+    url = S3.generate_presigned_url('get_object',
+                                                Params={'Bucket': user+"-bloud-bucket-test",
+                                                        'Key': path},
+                                                ExpiresIn=60)
+    print(url)
+    return url
 
 
 def delete_path(user, path):
@@ -102,11 +105,12 @@ def make_bucket(user):
 
 def share_file(user, path):
     url = S3.generate_presigned_url('get_object',
-                                                Params={'Bucket': user+"-bloud-bucket-test",
+                                                Params={'Bucket': user+ "-bloud-bucket-test",
                                                         'Key': path},
                                                 ExpiresIn=120)
     print(url)
     return url
+
 
 def move_file(user, old_path, new_path):
     S3.copy_object(Bucket=user + "-bloud-bucket-test", CopySource=user + "-bloud-bucket-test/" + old_path, Key=new_path)

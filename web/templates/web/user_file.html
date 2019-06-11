@@ -2,6 +2,11 @@
 {% load volume_fileter %}
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.7/sorting/file-size.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Mukta');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
@@ -131,81 +136,65 @@
                 <a style="color:white;" href="{% url 'user_file' path=new_path %}" style="border:1px solid black"><i class="fa fa-folder" aria-hidden="true"></i> {{file.name}}<br></a>
                 {% endwith %}
                 {% endif %}
-                {% else %}
-                {% with new_path=path|add:file.name %}
-                {% endwith %}
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </div>
-<table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:73%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:right;" class="ui celled striped collapsing table" id="file_table">
+<table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:73%; padding: 1rem; max-height: 50%;float:right;" class="ui celled striped collapsing table" id="file_table">
+
     <thead>
         <tr>
-            <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">파일이름<button onclick="sortTD(0)">▲</button><button onclick="reverseTD(0)">▼</button></th>
-            <th class="center aligned">크기<button onclick="sortTD(1)">▲</button><button onclick="reverseTD(1)">▼</button></th>
-            <th class="center aligned">날짜<button onclick="sortTD(2)">▲</button><button onclick="reverseTD(2)">▼</button></th>
-            <th class="collapsing">삭제</th>
-            <th class="collapsing">다운로드</th>
-            <th class="center aligned">공유</th>
+            <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">파일이름<button onclick="gwanshic(tbody01, 0)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
+            <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;color:#404040;">크기더미</th>
+            <th class="collapsing"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">크기<button onclick="gwanshic(tbody01, 1)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
+             <th class="center aligned"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;float:right;">날짜<button onclick="gwanshic(tbody01, 3)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
+            <th class="collapsing"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">삭제</th>
+            <th class="collapsing"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">다운로드</th>
+            <th class="center aligned"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">공유</th>
+
         </tr>
     </thead>
-    <tbody>
+    <tbody id="tbody01">
         {% for file in files %}
         <tr>
+            {% if file.type != "directory" %}
             <td class="collapsing">
-                {% if file.type == "directory" %}
-                {% if file.name != 'waste' %}
-                {% with new_path=path|add:file.name|add:'/' %}
-                {% endwith %}
-                {% endif %}
-                {% else %}
                 {% with new_path=path|add:file.name %}
                 <a style="color: white" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
                 {% endwith %}
-                {% endif %}
             </td>
               <td class="collapsing">
-                {% if file.type != "directory" %}
-                {% with new_path=path|add:file.name %}
-                <a style="color: white" ><i class="file outline icon"></i> {{file.volume|volume_filter}} </a>
-                {% endwith %}
-                {% endif %}
+                <a style="color:#404040 ;" ><i class="file outline icon"></i>{{file.volume}} </a>
             </td>
-
-            <td class="collapsing">
-                {% if file.type != "directory" %}
-                {% with new_path=path|add:file.name %}
+             <td class="collapsing">
+                <a style="color: white" ><i class="file outline icon"></i>{{file.volume|volume_filter}} </a>
+            </td>
+             <td class="collapsing">
                 <a style="color: white" ><i class="file outline icon"></i> {{file.time}} </a>
-                {% endwith %}
-                {% endif %}
             </td>
             <td class="center aligned collapsing">
-                {% if file.type != "directory" %}
                 {% with new_path=path|add:file.name bin_path='waste/'|add:file.name %}
-                <a style="color: white; cursor:pointer;" href="{% url 'throw' old_path=new_path new_path=bin_path %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a style="color: white; cursor:pointer; " href="{% url 'throw' old_path=new_path new_path=bin_path %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 {% endwith %}
-                {% endif %}
             </td>
             <td class="center aligned collapsing">
-                {% if file.type != "directory" %}
                 {% with new_path=path|add:file.name %}
                 <a style="color: white" href="{% url 'file_download' path=new_path %}"><i class="fa fa-download" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
                 {% endwith %}
-                {% endif %}
             </td>
             <td class="collapsing">
-                {% if file.type != "directory" %}
                 {% with new_path=path|add:file.name %}
                 <a style="color: black" href="{% url 'file_share' path=new_path %}"><i class="fa fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
                 {% endwith %}
-                {% endif %}
             </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
 {% if messages %}
 {% for message in messages %}
 <div id="some_flag_1" title="Some Flag_1">
@@ -321,179 +310,106 @@ function move(old) {
     location.href = "/move/" + old + "&" + move_path;
 }
 
-function sortingNumber( a , b ){
+var index;  // cell index
 
-        if ( typeof a == "number" && typeof b == "number" ) return a - b;
+var toggleBool; // sorting asc, desc
 
-        // 천단위 쉼표와 공백문자만 삭제하기.
-        var a = ( a + "" ).replace( /[,\s\xA0]+/g , "" );
-        var b = ( b + "" ).replace( /[,\s\xA0]+/g , "" );
+function gwanshic(tbody, index){
 
-        var numA = parseFloat( a ) + "";
-        var numB = parseFloat( b ) + "";
+ this.index = index;
 
-        if ( numA == "NaN" || numB == "NaN" || a != numA || b != numB ) return false;
+ if(toggleBool){
 
-        return parseFloat( a ) - parseFloat( b );
+  toggleBool = false;
+
+ }else{
+
+  toggleBool = true;
+
+ }
+
+
+
+ var datas= new Array();
+
+ var tbodyLength = tbody.rows.length;
+
+ for(var i=0; i<tbodyLength; i++){
+
+  datas[i] = tbody.rows[i];
+
+ }
+
+
+
+ // sort by cell[index]
+
+ datas.sort(compareCells);
+
+ for(var i=0; i<tbody.rows.length; i++){
+
+  // rearrange table rows by sorted rows
+
+  tbody.appendChild(datas[i]);
+
+ }
+
 }
 
 
-/* changeForSorting() : 문자열 바꾸기. */
 
-function changeForSorting( first , second ){
+function compareCells(a,b) {
 
-        // 문자열의 복사본 만들기.
-        var a = first.toString().replace( /[\s\xA0]+/g , " " );
-        var b = second.toString().replace( /[\s\xA0]+/g , " " );
+ var aVal = a.cells[index].innerText;
 
-        var change = { first : a, second : b };
+ var bVal = b.cells[index].innerText;
 
-        if ( a.search( /\d/ ) < 0 || b.search( /\d/ ) < 0 || a.length == 0 || b.length == 0 ) return change;
 
-        var regExp = /(\d),(\d)/g; // 천단위 쉼표를 찾기 위한 정규식.
 
-        a = a.replace( regExp , "$1" + "$2" );
-        b = b.replace( regExp , "$1" + "$2" );
+ aVal = aVal.replace(/\,/g, '');
 
-        var unit = 0;
-        var aNb = a + " " + b;
-        var numbers = aNb.match( /\d+/g ); // 문자열에 들어있는 숫자 찾기
+ bVal = bVal.replace(/\,/g, '');
 
-        for ( var x = 0; x < numbers.length; x++ ){
 
-                var length = numbers[ x ].length;
-                if ( unit < length ) unit = length;
-        }
 
-        var addZero = function( string ){ // 숫자들의 단위 맞추기
+  if(toggleBool){
 
-                var match = string.match( /^0+/ );
+  var temp = aVal;
 
-                if ( string.length == unit ) return ( match == null ) ? string : match + string;
+  aVal = bVal;
 
-                var zero = "0";
+  bVal = temp;
 
-                for ( var x = string.length; x < unit; x++ ) string = zero + string;
+ }
 
-                return ( match == null ) ? string : match + string;
-        };
 
-        change.first = a.replace( /\d+/g, addZero );
-        change.second = b.replace( /\d+/g, addZero );
 
-        return change;
+ if(aVal.match(/^[0-9]+$/) && bVal.match(/^[0-9]+$/)){
+
+  return parseFloat(aVal) - parseFloat(bVal);
+
+ }
+
+ else{
+
+    if (aVal < bVal){
+
+     return -1;
+
+    }else if (aVal > bVal){
+
+       return 1;
+
+    }else{
+
+     return 0;
+
+    }
+
+ }
+
 }
-
-
-/* byLocale() */
-
-function byLocale(){
-
-        var compare = function( a , b ){
-
-                var sorting = sortingNumber( a , b );
-
-                if ( typeof sorting == "number" ) return sorting;
-
-                var change = changeForSorting( a , b );
-
-                var a = change.first;
-                var b = change.second;
-
-                return a.localeCompare( b );
-        };
-
-        var ascendingOrder = function( a , b ){  return compare( a , b );  };
-        var descendingOrder = function( a , b ){  return compare( b , a );  };
-
-        return { ascending : ascendingOrder, descending : descendingOrder };
-}
-
-
-/* replacement() */
-
-function replacement( parent ){
-        var tagName = parent.tagName.toLowerCase();
-        if ( tagName == "table" ) parent = parent.tBodies[ 0 ];
-        tagName = parent.tagName.toLowerCase();
-        if ( tagName == "tbody" ) var children = parent.rows;
-        else var children = parent.getElementsByTagName( "li" );
-
-        var replace = {
-                order : byLocale(),
-                index : false,
-                array : function(){
-                        var array = [ ];
-                        for ( var x = 0; x < children.length; x++ ) array[ x ] = children[ x ];
-                        return array;
-                }(),
-                checkIndex : function( index ){
-                        if ( index ) this.index = parseInt( index, 10 );
-                        var tagName = parent.tagName.toLowerCase();
-                        if ( tagName == "tbody" && ! index ) this.index = 0;
-                },
-                getText : function( child ){
-                        if ( this.index ) child = child.cells[ this.index ];
-                        return getTextByClone( child );
-                },
-                setChildren : function(){
-                        var array = this.array;
-                        while ( parent.hasChildNodes() ) parent.removeChild( parent.firstChild );
-                        for ( var x = 0; x < array.length; x++ ) parent.appendChild( array[ x ] );
-                },
-                ascending : function( index ){ // 오름차순
-                        this.checkIndex( index );
-                        var _self = this;
-                        var order = this.order;
-                        var ascending = function( a, b ){
-                                var a = _self.getText( a );
-                                var b = _self.getText( b );
-                                return order.ascending( a, b );
-                        };
-                        this.array.sort( ascending );
-                        this.setChildren();
-                },
-                descending : function( index ){ // 내림차순
-                        this.checkIndex( index );
-                        var _self = this;
-                        var order = this.order;
-                        var descending = function( a, b ){
-                                var a = _self.getText( a );
-                                var b = _self.getText( b );
-                                return order.descending( a, b );
-                        };
-                        this.array.sort( descending );
-                        this.setChildren();
-                }
-        };
-        return replace;
-}
-
-function getTextByClone( tag ){
-        var clone = tag.cloneNode( true ); // 태그의 복사본 만들기.
-        var br = clone.getElementsByTagName( "br" );
-        while ( br[0] ){
-                var blank = document.createTextNode( " " );
-                clone.insertBefore( blank , br[0] );
-                clone.removeChild( br[0] );
-        }
-        var isBlock = function( tag ){
-                var display = "";
-                if ( window.getComputedStyle ) display = window.getComputedStyle ( tag, "" )[ "display" ];
-                else display = tag.currentStyle[ "display" ];
-                return ( display == "block" ) ? true : false;
-        };
-        var children = clone.getElementsByTagName( "*" );
-        for ( var x = 0; x < children.length; x++){
-                var child = children[ x ];
-                if ( ! ("value" in child) && isBlock(child) ) child.innerHTML = child.innerHTML + " ";
-        }
-        var textContent = ( "textContent" in clone ) ? clone.textContent : clone.innerText;
-        return textContent;
-}
-var myTable = document.getElementById( "file_table" );
-var replace = replacement( myTable );
-function sortTD( index ){    replace.ascending( index );    }
-function reverseTD( index ){    replace.descending( index );    }
 </script>
+
+
 {% endblock %}

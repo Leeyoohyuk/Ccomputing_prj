@@ -24,7 +24,6 @@ def user_file(request, path):
     data = s3_interface.dir_path(user.username, path)
     ret = data # 리스트 데이터를 ret에 저장하고
     ret['path'] = path # 패스key와 현재 경로를 추가한다.
-    print('render 시작')
     return render(request, 'web/user_file.html', ret)
 
 
@@ -64,7 +63,6 @@ def waste_file(request, path ='waste/'):
 @login_required # 완료
 def file_upload(request, path="/"):
     file = request.FILES.get('file')
-    # created = request.FILES.get('')
     files = {'file':file}
     file_serializer = FileSerializer(data=files)
 
@@ -98,9 +96,9 @@ def file_delete(request, path='/'):
 
 @login_required  # ¿Ï·á
 def file_download(request, path):
-    file = 'tempfile/' + path.split('/')[-1]
     user = request.user
-    s3_interface.download_file(user.username, file, path)
+    url = (s3_interface.download_file(user.username, path))
+    messages.info(request, url, extra_tags='safe')  # 메세지
     return redirect('user_file', path=path.replace(path.split('/')[-1], ''))
 
 
@@ -138,6 +136,7 @@ def file_move(request, old_path, new_path):
 
 def file_share(request, path=''):
     user = request.user
+    print(path)
     url = (s3_interface.share_file(user.username, path))
     messages.info(request, url, extra_tags='safe')  # 메세지
     return redirect('user_file', path=path.replace(path.split('/')[-1], ''))

@@ -9,12 +9,9 @@
     <link rel="stylesheet" href="../../static/css/login_style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
 </head>
 
 <body>
-
     {% if some_flag %}
        <div id="some_flag" title="Some Flag">
         <script type="text/javascript">
@@ -84,116 +81,81 @@
     <section class="intro">
         <div class="intro_inner">
             <div class="content_intro">
-                <h1 class="content_intro_inner" data-aos="fade-left">당신만을 위한 클라우딩 서비스</h1>
-                <p class="lead" data-aos="fade-left">언제 어디서나 당신만의 저장 장치를 가져보세요</p>
+                <h1 class="content_intro_inner" data-aos="fade-left" style="font-size: 35px;">당신만을 위한 클라우딩 서비스</h1>
+                <p class="lead" data-aos="fade-left" style="font-size:20px;">언제 어디서나 당신만의 저장 장치를 가져보세요</p>
             </div>
         </div>
     </section>
     <section class="second_int">
         <div class="second_int_inn">
             <div class="content_second_int">
-                <h1 class="content_second_int_inn" data-aos="fade-right">당신만을 위한 클라우딩 서비스</h1>
-                <p class="second_lead" data-aos="fade-right">언제 어디서나 당신만의 저장 장치를 가져보세요</p>
+                <h1 class="content_second_int_inn" data-aos="fade-right" style="font-size:35px;">당신의 친구들과 파일을 공유하세요</h1>
+                <p class="second_lead" data-aos="fade-right" style="font-size:20px; color:#5b5b5b">링크를 통해 쉽고 간편하게 공유하세요</p>
             </div>
         </div>
     </section>
     <section class="third_int">
         <div class="third_int_inn">
             <div class="content_third_int">
-                <h1 class="content_third_int_inn" data-aos="fade-right">당신만을 위한 클라우딩 서비스</h1>
-                <p class="third_lead" data-aos="fade-right">언제 어디서나 당신만의 저장 장치를 가져보세요</p>
+                <h1 class="content_third_int_inn" data-aos="fade-right" style="font-size:28px;">원하는 형식의 파일만 따로 관리하세요</h1>
+                <p class="third_lead" data-aos="fade-right" style="font-size: 20px">이미지, 문서, 동영상 파일을 관리하세요</p>
             </div>
         </div>
     </section>
     <section class="fourth_int">
         <div class="fourth_int_inn">
             <div class="content_fourth_int">
-                <h1 class="content_fourth_int_inn" data-aos="fade-up">지금 시작해볼까요?</h1>
-                <input type="button" onclick="fnMove('1')" value="Let's start!" class="fourth_lead" data-aos="fade-up">
+                <h1 class="content_fourth_int_inn" data-aos="fade-up" style="font-size:35px;">지금 시작해볼까요?</h1>
+                <input type="button" onclick="fnMove('1')" value="Let's start!" class="fourth_lead" data-aos="fade-up" >
             </div>
         </div>
     </section>
     <!--아래 href="#" #부분에 원하는 페이지 링크 넣기-->
-    <section class="fifth_int">
-        <div class="footer-main">
-            <div class="footer-inner">
-                <div class="footer-left">
-                    <div class="footer-box">
-                        <h6>PRODUCTS</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
+  <section class="fifth_int">
+            <div class="footer-main">
+                <div class="footer-inner">
+                    <div class="footer-left">
+                        <div class="footer-box">
+                            <h6>HOW TO USE</h6>
+                            <ul>
+                                <li><b href="#">go to youtube</b></li>
+                            </ul>
+                        </div>
+                        <div class="footer-box">
+                            <h6>ABOUT US</h6>
+                            <ul>
+                                <a style="color:white;" href="{% url 'aboutus' %}">Move to about us</a>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="footer-box">
-                        <h6>HOW TO USE</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
+                    <div class="footer-left1">
+                        <div class="footer-box">
+                            <h6>FOLLOW US</h6>
+                            <ul>
+                                <li><b href="#"><i class="fa fa-google-plus"></i>Google+</b></li>
+                                <li><b href="#"><i class="fa fa-twitter"></i>Twitter</b></li>
+                                <li><b href="#"><i class="fa fa-facebook"></i>Facebook</b></li>
+                                <li><b href="#"><i class="fa fa-linkedin"></i>Linkedin</b></li>
+                                <li><b href="#"><i class="fa fa-rss"></i>Rss</b></li>
+                            </ul>
+                        </div>
                     </div>
+                    <div class="footer-left2">
+                        <div class="footer-box">
+                            <h5>CONTACT</h5>
+                            <p>Telephone: +82 10-6428-5828</p>
+                            <p>E-mail: ljyjh0118@gmail.com</p>
+                        </div>
+                        <div class="footer-box">
+                            <h5>LOCATION</h5>
+                            <p>Address: 1-0, Giheung-gu, Yongin-si Gyeonggi-do,,, Republic of Korea</p>
+                            <p>Phone: 031-201-2114</p>
+                        </div>
+                    </div>
+                    <div class="clr"></div>
                 </div>
-                <div class="footer-left">
-                    <div class="footer-box">
-                        <h6>ABOUT US</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
-                    </div>
-                    <div class="footer-box">
-                        <h6>INFORMATION</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-left">
-                    <div class="footer-box">
-                        <h6>FOLLOW US</h6>
-                        <ul>
-                            <li><b href="#"><i class="fa fa-google-plus"></i>Google+</b></li>
-                            <li><b href="#"><i class="fa fa-twitter"></i>Twitter</b></li>
-                            <li><b href="#"><i class="fa fa-facebook"></i>Facebook</b></li>
-                            <li><b href="#"><i class="fa fa-linkedin"></i>Linkedin</b></li>
-                            <li><b href="#"><i class="fa fa-rss"></i>Rss</b></li>
-                        </ul>
-                    </div>
-                    <div class="footer-box">
-                        <h6>SHARE</h6>
-                        <ul>
-                            <li><b href="#">Products One</b></li>
-                            <li><b href="#">Products Two</b></li>
-                            <li><b href="#">Products Three</b></li>
-                            <li><b href="#">Products Four</b></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-right">
-                    <div class="footer-box">
-                        <h5>CONTACT</h5>
-                        <p>Telephone: +82 10-6428-5828</p>
-                        <p>E-mail: ljyjh0118@gmail.com</p>
-                    </div>
-                    <div class="footer-box">
-                        <h5>LOCATION</h5>
-                        <p>Address: 1-0, Giheung-gu, Yongin-si Gyeonggi-do,,, Republic of Korea</p>
-                        <p>Phone: 031-201-2114</p>
-                    </div>
-                </div>
-                <div class="clr"></div>
             </div>
-        </div>
-    </section>
+        </section>
     <script>
     /*
       로그인 애니메이션 구현 (양옆이동)

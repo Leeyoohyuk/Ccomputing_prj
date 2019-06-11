@@ -10,5 +10,5 @@ def volume_filter(value):
     elif int(value) > 1024:
         volume = str(round(value/1024, 2)) + 'KB'
     else:
-        volume = str(round(value, 2)) + 'By'
+        volume = str(round(value, 2)) + 'Byte'
     return volume
