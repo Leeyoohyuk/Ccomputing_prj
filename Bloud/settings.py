@@ -10,6 +10,7 @@ from Bloud import awsconf
 import os
 import json
 from django.core.exceptions import ImproperlyConfigured
+import psycopg2
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +27,13 @@ SOCIAL_AUTH_GOOGLE_PLUS_SECRET = "sIpUzJsMQxmrYv9OzFchasjW" #보안 비밀을 �
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '.ap-northeast-2.compute.amazonaws.com',
+    '*',
+    '15.162.32.104',
+    '.amazonaws.com',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -85,10 +92,23 @@ WSGI_APPLICATION = 'Bloud.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+'''
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'che1-db.ctw6suvnu3ic.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+        'NAME': 'deploy',
+        'USER': 'Che1',
+        'PASSWORD': 'dkssudgktpdy',
     }
 }
 

@@ -14,7 +14,7 @@
           <td class="collapsing" >
             {% if file.type != "directory" %}
               {% with new_path=path|add:file.name %}
-              <a style="color: white" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
+              <a style="color: white"><i class="file outline icon"></i> {{file.name}} </a><br>
               {% endwith %}
             {% endif %}
           </td>

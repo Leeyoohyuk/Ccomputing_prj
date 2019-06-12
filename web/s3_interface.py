@@ -9,7 +9,7 @@ S3 = boto3.client(
     aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
     aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY,
     config=boto3.session.Config(signature_version='s3v4'),
-    region_name='ap-northeast-2',
+    #region_name='ap-northeast-2',
 )
 
 S3source = boto3.resource('s3', aws_access_key_id=awsconf.AWS_ACCESS_KEY_ID,
@@ -88,9 +88,9 @@ def make_directory(user, path):
     return S3.put_object(Bucket=user + "-bloud-bucket-test", Key=path)
 
 
-def make_bucket(user):
+def make_bucket(user, region='ap-northeast-2'):
     S3.create_bucket(Bucket=user + "-bloud-bucket-test", CreateBucketConfiguration={
-        'LocationConstraint': 'ap-northeast-2'})
+        'LocationConstraint': region})
     return S3.put_bucket_cors(Bucket=user + "-bloud-bucket-test", CORSConfiguration={
         'CORSRules': [
             {
