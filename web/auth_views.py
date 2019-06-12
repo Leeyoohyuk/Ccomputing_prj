@@ -28,7 +28,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password, email=email)
+            user = authenticate(username=username, password=raw_password)
             login(request, user)
             s3_interface.make_bucket(user.username)
             s3_interface.make_directory(user.username, 'waste/')

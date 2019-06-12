@@ -78,7 +78,6 @@ def file_upload(request, path="/"):
 
     return redirect('user_file', path=path)
 
-
 @login_required  # ¿Ï·á
 def create_folder(request, path):
     request.POST.get('dir_name')
@@ -92,29 +91,6 @@ def file_delete(request, path='/'):
     user = request.user
     s3_interface.delete_path(user.username, path)
     return redirect('waste_file')
-
-
-@login_required  # ¿Ï·á
-def file_download(request, path):
-    user = request.user
-    url = (s3_interface.download_file(user.username, path))
-    messages.info(request, url, extra_tags='safe')  # 메세지
-    return redirect('user_file', path=path.replace(path.split('/')[-1], ''))
-
-
-@login_required # ¿Ï·á
-def file_view(request, path):
-    file = 'tempfile/' + path.split('/')[-1]
-    r_path = path.split('/')[-1]
-    user = request.user
-    s3_interface.download_file(user.username, file, path)
-    file_path = os.path.join(settings.MEDIA_ROOT, r_path)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type='text/plain')
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    raise Http404
 
 
 @login_required  # ¿Ï·á
@@ -134,9 +110,9 @@ def file_move(request, old_path, new_path):
     return redirect('user_file', path='')
 
 
+@login_required
 def file_share(request, path=''):
     user = request.user
-    print(path)
     url = (s3_interface.share_file(user.username, path))
     messages.info(request, url, extra_tags='safe')  # 메세지
     return redirect('user_file', path=path.replace(path.split('/')[-1], ''))

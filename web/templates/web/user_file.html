@@ -8,10 +8,7 @@
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.7/sorting/file-size.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css?family=Mukta');
-@import url('https://fonts.googleapis.com/css?family=Raleway');
-@import url('https://fonts.googleapis.com/css?family=Oswald');
-@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+    @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
     #dropFileForm{
       margin:16px;
@@ -100,13 +97,6 @@
             </label>
             <input type="submit" value="Upload" class="uploadButton">
         </form>
-        {# <form method="post" , enctype="multipart/form-data" , action="{% url 'file_upload' path=path %}">#}
-            {# {% csrf_token %}#}
-            {# <div style="border: solid; display:inline-block; padding: 5px; border-color: skyblue">#}
-                {# <input type="file" name="file">#}
-                {# </div>#}
-            {# <button style="margin-top: 10px;" class="ui primary button" type="submit"><i class="upload icon"></i>업로드</button>#}
-            {# </form>#}
     </div>
 </center>
 <div style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:27%; padding: 1rem; border-right:0.5rem solid #efefef; max-height: 50%;float:left;">
@@ -143,36 +133,32 @@
     </tbody>
 </div>
 <table style="display:block; background: #404040; color:#ccc; overflow:hidden; transition: all .5s ease; width:73%; padding: 1rem; max-height: 50%;float:right;" class="ui celled striped collapsing table" id="file_table">
-
     <thead>
         <tr>
             <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">파일이름<button onclick="gwanshic(tbody01, 0)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
             <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;color:#404040;">크기더미</th>
-            <th class="collapsing"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">크기<button onclick="gwanshic(tbody01, 1)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
-             <th class="center aligned"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;float:right;">날짜<button onclick="gwanshic(tbody01, 3)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
-            <th class="collapsing"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">삭제</th>
-            <th class="collapsing"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">다운로드</th>
-            <th class="center aligned"style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">공유</th>
-
+            <th class="collapsing" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">크기<button onclick="gwanshic(tbody01, 1)" style="opacity:0.1; cursor:pointer;"><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
+            <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;float:right;">날짜<button onclick="gwanshic(tbody01, 3)" style="opacity:0.1; "><i class="fa fa-arrows-v" aria-hidden="true"></i></button></th>
+            <th class="collapsing" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">삭제</th>
+            <th class="collapsing" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">다운로드</th>
+            <th class="center aligned" style="font-weight:100;font-family: 'Jeju Gothic', sans-serif;">공유</th>
         </tr>
     </thead>
     <tbody id="tbody01">
         {% for file in files %}
+        {% if file.type != "directory" %}
         <tr>
-            {% if file.type != "directory" %}
             <td class="collapsing">
-                {% with new_path=path|add:file.name %}
-                <a style="color: white" href="{% url 'file_view' path=new_path %}"><i class="file outline icon"></i> {{file.name}} </a><br>
-                {% endwith %}
+                <a style="color: white" ><i class="file outline icon"></i> {{file.name}} </a><br>
             </td>
-              <td class="collapsing">
-                <a style="color:#404040 ;" ><i class="file outline icon"></i>{{file.volume}} </a>
+            <td class="collapsing">
+                <a style="color:#404040 ;"><i class="file outline icon"></i>{{file.volume}} </a>
             </td>
-             <td class="collapsing">
-                <a style="color: white" ><i class="file outline icon"></i>{{file.volume|volume_filter}} </a>
+            <td class="collapsing">
+                <a style="color: white"><i class="file outline icon"></i>{{file.volume|volume_filter}} </a>
             </td>
-             <td class="collapsing">
-                <a style="color: white" ><i class="file outline icon"></i> {{file.time}} </a>
+            <td class="collapsing">
+                <a style="color: white"><i class="file outline icon"></i> {{file.time}} </a>
             </td>
             <td class="center aligned collapsing">
                 {% with new_path=path|add:file.name bin_path='waste/'|add:file.name %}
@@ -181,27 +167,30 @@
             </td>
             <td class="center aligned collapsing">
                 {% with new_path=path|add:file.name %}
-                <a style="color: white" href="{% url 'file_download' path=new_path %}"><i class="fa fa-download" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+                <a style="color: white" onclick="onclick_d()" href="{% url 'file_download' path=new_path %}"><i class="fa fa-download" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
                 {% endwith %}
             </td>
             <td class="collapsing">
                 {% with new_path=path|add:file.name %}
-                <a style="color: black" href="{% url 'file_share' path=new_path %}"><i class="fa fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
+                <a style="color: black" onclick="onclick_s()" href="{% url 'file_share' path=new_path %}"><i class="fa fa-share-alt-square" aria-hidden="true" style="color:white; float:left;position:relative;left:50%;"></i></a>
                 {% endwith %}
             </td>
-            {% endif %}
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>
-
 {% if messages %}
 {% for message in messages %}
-<div id="some_flag_1" title="Some Flag_1">
-    <script type="text/javascript">
+<script type="text/javascript">
+function onclick_s() {
     window.prompt("Copy to clipboard: Ctrl+C", "{% autoescape off %}{{ message }}{% endautoescape %}");
-    </script>
-</div>
+}
+
+function onclick_d() {
+    window.open("{% autoescape off %}{{ message }}{% endautoescape %}", "_blank", "width=500,height=600");
+}
+</script>
 {% endfor %}
 {% endif %}
 <script type="text/javascript">
@@ -278,6 +267,10 @@ function uploadChange(file) {
     }
 }
 
+
+
+
+
 function make_folder() {
     document.getElementById("dir_make").style.display = "inline-block";
 }
@@ -310,106 +303,102 @@ function move(old) {
     location.href = "/move/" + old + "&" + move_path;
 }
 
-var index;  // cell index
+var index; // cell index
 
 var toggleBool; // sorting asc, desc
 
-function gwanshic(tbody, index){
+function gwanshic(tbody, index) {
 
- this.index = index;
+    this.index = index;
 
- if(toggleBool){
+    if (toggleBool) {
 
-  toggleBool = false;
+        toggleBool = false;
 
- }else{
+    } else {
 
-  toggleBool = true;
-
- }
-
-
-
- var datas= new Array();
-
- var tbodyLength = tbody.rows.length;
-
- for(var i=0; i<tbodyLength; i++){
-
-  datas[i] = tbody.rows[i];
-
- }
-
-
-
- // sort by cell[index]
-
- datas.sort(compareCells);
-
- for(var i=0; i<tbody.rows.length; i++){
-
-  // rearrange table rows by sorted rows
-
-  tbody.appendChild(datas[i]);
-
- }
-
-}
-
-
-
-function compareCells(a,b) {
-
- var aVal = a.cells[index].innerText;
-
- var bVal = b.cells[index].innerText;
-
-
-
- aVal = aVal.replace(/\,/g, '');
-
- bVal = bVal.replace(/\,/g, '');
-
-
-
-  if(toggleBool){
-
-  var temp = aVal;
-
-  aVal = bVal;
-
-  bVal = temp;
-
- }
-
-
-
- if(aVal.match(/^[0-9]+$/) && bVal.match(/^[0-9]+$/)){
-
-  return parseFloat(aVal) - parseFloat(bVal);
-
- }
-
- else{
-
-    if (aVal < bVal){
-
-     return -1;
-
-    }else if (aVal > bVal){
-
-       return 1;
-
-    }else{
-
-     return 0;
+        toggleBool = true;
 
     }
 
- }
+
+
+    var datas = new Array();
+
+    var tbodyLength = tbody.rows.length;
+
+    for (var i = 0; i < tbodyLength; i++) {
+
+        datas[i] = tbody.rows[i];
+
+    }
+
+
+
+    // sort by cell[index]
+
+    datas.sort(compareCells);
+
+    for (var i = 0; i < tbody.rows.length; i++) {
+
+        // rearrange table rows by sorted rows
+
+        tbody.appendChild(datas[i]);
+
+    }
+
+}
+
+
+
+function compareCells(a, b) {
+
+    var aVal = a.cells[index].innerText;
+
+    var bVal = b.cells[index].innerText;
+
+
+
+    aVal = aVal.replace(/\,/g, '');
+
+    bVal = bVal.replace(/\,/g, '');
+
+
+
+    if (toggleBool) {
+
+        var temp = aVal;
+
+        aVal = bVal;
+
+        bVal = temp;
+
+    }
+
+
+
+    if (aVal.match(/^[0-9]+$/) && bVal.match(/^[0-9]+$/)) {
+
+        return parseFloat(aVal) - parseFloat(bVal);
+
+    } else {
+
+        if (aVal < bVal) {
+
+            return -1;
+
+        } else if (aVal > bVal) {
+
+            return 1;
+
+        } else {
+
+            return 0;
+
+        }
+
+    }
 
 }
 </script>
-
-
 {% endblock %}

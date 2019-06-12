@@ -6,10 +6,10 @@ from Bloud import awsconf
 
 S3 = boto3.client(
     's3',
-    region_name='ap-northeast-2',
     aws_access_key_id= awsconf.AWS_ACCESS_KEY_ID,
     aws_secret_access_key= awsconf.AWS_SECRET_ACCESS_KEY,
-    config=Config(signature_version='s3v4')
+    config=boto3.session.Config(signature_version='s3v4'),
+    region_name='ap-northeast-2',
 )
 
 S3source = boto3.resource('s3', aws_access_key_id=awsconf.AWS_ACCESS_KEY_ID,
@@ -33,7 +33,6 @@ def dir_path(user, path):
             file = obj.get('Key').split('/')[-1]
             if file != '':
                 files.append({'type':'file', 'name':file, 'time':obj.get("LastModified"), 'volume':obj.get('Size')})
-    print('dir path end')
     return {'files':files}
 
 
@@ -81,15 +80,6 @@ def upload_file(user, local_path, key):
     return S3.upload_file(local_path, user + "-bloud-bucket-test", key, Config = config)
 
 
-def download_file(user, path):
-    url = S3.generate_presigned_url('get_object',
-                                                Params={'Bucket': user+"-bloud-bucket-test",
-                                                        'Key': path},
-                                                ExpiresIn=60)
-    print(url)
-    return url
-
-
 def delete_path(user, path):
     return S3.delete_object(Bucket=user + "-bloud-bucket-test", Key=path)
 
@@ -99,8 +89,27 @@ def make_directory(user, path):
 
 
 def make_bucket(user):
-    return S3.create_bucket(Bucket=user + "-bloud-bucket-test", CreateBucketConfiguration={
+    S3.create_bucket(Bucket=user + "-bloud-bucket-test", CreateBucketConfiguration={
         'LocationConstraint': 'ap-northeast-2'})
+    return S3.put_bucket_cors(Bucket=user + "-bloud-bucket-test", CORSConfiguration={
+        'CORSRules': [
+            {
+                'AllowedHeaders': [
+                    'Authorization',
+                ],
+                'AllowedMethods': [
+                    'GET', 'PUT', 'POST', 'DELETE', 'HEAD',
+                ],
+                'AllowedOrigins': [
+                    '*',
+                ],
+                'ExposeHeaders': [
+                    'GET', 'PUT'
+                ],
+                'MaxAgeSeconds': 3000
+            },
+        ]
+    },)
 
 
 def share_file(user, path):
@@ -108,7 +117,6 @@ def share_file(user, path):
                                                 Params={'Bucket': user+ "-bloud-bucket-test",
                                                         'Key': path},
                                                 ExpiresIn=120)
-    print(url)
     return url
 
 
