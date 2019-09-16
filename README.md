@@ -20,3 +20,9 @@ Database – postgreSQL
 Language - html/css (FE), Python (BE)
 
 Framework – Django 2.0
+
+## Demo
+
+![tttt](https://user-images.githubusercontent.com/38336997/64960260-f150a400-d8cd-11e9-817b-57f7d4ee3544.JPG)
+
+[유튜브 데모 영상 링크](https://www.youtube.com/watch?v=WfI26buirWY&list=PLxCNGfkJ9D2rn8U2OJilnNhCBKbMVpEM3)
